@@ -1,416 +1,573 @@
 # OG Card Maker - Social Media Promotion Plan
 
-> Goal: Drive traffic via social media and get at least 1 person to tip $1 on Buy Me a Coffee within 2 days.
-> URL: https://og-card-maker.vercel.app
+> **Goal:** Drive traffic and get at least 1 person to tip $1 via Buy Me a Coffee within 2 days.
+> **URL:** https://og-card-maker.vercel.app
+> **Target Audience:** Overseas developers, indie hackers, designers, content creators
 
 ---
 
 ## 1. Reddit Posts
 
-### r/InternetIsBeautiful (17M subscribers)
+### 1.1 r/InternetIsBeautiful (17M subscribers)
 
-**Title:** I made a free tool that generates beautiful social media preview images in your browser - no signup, no watermark
+> Style: Clean, factual, "here's a useful thing". No hype.
+
+**Title:** A free browser tool that generates social media preview cards in seconds — no signup, no watermark, no data uploaded
 
 **Body:**
 
-Hey everyone! I built this little tool called OG Card Maker that lets you create Open Graph / social media preview images directly in your browser.
+Hey! I built a simple tool that generates Open Graph / social media preview images right in your browser.
 
 **What it does:**
-- Generate preview cards for Twitter, Facebook, LinkedIn, etc.
-- 16+ gradient themes and 8 texture patterns to choose from
-- Supports emoji icons
-- Multiple sizes: OG (1200x630), Twitter (1200x675), Square (1080x1080)
-- One-click copy to clipboard
+- Pick from 16+ gradient themes and 8 texture patterns
+- Add your title, subtitle, and an emoji icon
+- Choose a size: OG (1200x630), Twitter (1200x675), or Square (1080x1080)
+- One-click copy to clipboard or download as PNG
 
 **What it doesn't do:**
-- No signup required
+- No signup or account needed
 - No watermark
-- No data collection (everything runs in your browser)
-- No cost
+- No data leaves your browser (100% client-side)
+- No cost — completely free
+
+I built this in one evening because I was tired of opening Figma every time I needed a quick preview image for a blog post or project. Everything runs on Canvas API in your browser.
 
 Link: https://og-card-maker.vercel.app
 
-I built this in one evening because I was tired of firing up Figma every time I needed a quick OG image for a blog post. Hope someone else finds it useful too!
+Hope someone else finds it useful!
 
 ---
 
-### r/SideProject (200K+ subscribers)
+### 1.2 r/SideProject (200K+ subscribers)
 
-**Title:** Built a free OG image generator in one evening - here's what I learned shipping fast
+> Style: Build-in-public, storytelling, journey-focused. BMC mention is acceptable here.
+
+**Title:** I built a free OG image generator in one evening — $0 to run, solves a 20-minute problem in 10 seconds
 
 **Body:**
 
-Hey r/SideProject! Wanted to share something I built last night.
+Hey r/SideProject! Sharing a tiny tool I shipped last night.
 
-**The problem:** Every time I published a blog post or shared a link, I needed a social preview image. Opening Figma, picking colors, exporting... it felt like overkill for something that should take 30 seconds.
+**The itch I was scratching:**
 
-**The solution:** [OG Card Maker](https://og-card-maker.vercel.app) - a browser-based tool that generates social media preview cards instantly.
+Every time I launched a project or wrote a blog post, I'd spend 15-20 minutes in Figma making the social preview image. Pick colors, align text, export at 1200x630, realize Twitter needs 1200x675, re-export... It felt absurd for something people glance at for half a second.
 
-**Features:**
-- 16+ gradient themes
-- 8 texture patterns
-- Emoji support for icons
-- Multiple export sizes (OG, Twitter, Square)
-- Copy to clipboard with one click
-- Pure frontend - no backend, no auth, no BS
+**What I built:**
 
-**Tech stack:** Plain HTML/CSS/JS, deployed on Vercel (free tier). Total cost: $0.
+[OG Card Maker](https://og-card-maker.vercel.app) — a browser-based tool that generates social media preview cards instantly.
 
-**What I learned:**
-1. Canvas API is surprisingly powerful for this kind of thing
-2. Shipping something small but complete feels way better than sitting on a half-finished "big" project
-3. Gradients + subtle textures = instant "designed" look without actual design skills
+- 16+ gradient themes (carefully picked color combos that just work)
+- 8 texture overlays (dots, grid, waves, diagonal lines, etc.)
+- Emoji icon support
+- Three export sizes: OG, Twitter, Square
+- One-click copy to clipboard
+- Pure frontend — no backend, no auth, no database
 
-It's 100% free, no signup, no watermark. If you find it useful and want to support more tools like this, I have a [Buy Me a Coffee](https://buymeacoffee.com/) page, but zero pressure.
+**Tech:** Vanilla HTML/CSS/JS + Canvas API. Deployed on Vercel free tier. Total monthly cost: $0.
 
-Would love to hear feedback - what templates or features would make this more useful for you?
+**Build time:** About 4 hours from "I'm annoyed" to "it's live."
+
+**What I learned shipping this:**
+1. The Canvas API is criminally underused for tools like this — most people reach for Puppeteer/headless Chrome, but you can do so much client-side
+2. A two-color gradient + subtle texture looks more "designed" than complex graphics
+3. Shipping something complete in one evening beats polishing something for two weeks
+
+**What's next:** Custom color picker, font options, and maybe saved templates if people actually use it.
+
+It's completely free and always will be (it literally costs nothing to host). If it saves you time and you want to fuel more late-night build sessions, there's a [Buy Me a Coffee](https://buymeacoffee.com/) link on the site — but zero pressure, genuinely just happy if it's useful.
+
+Would love feedback — what themes or features would make this better for your workflow?
 
 ---
 
-### r/webdev (2.4M subscribers)
+### 1.3 r/webdev (2.4M subscribers)
 
-**Title:** I built a client-side OG image generator using Canvas API - no backend needed
+> Style: Technical, educational, share implementation details. Must provide value beyond just "look at my tool."
+
+**Title:** I replaced my Figma OG image workflow with a Canvas API tool — here's the technical approach (no backend, no dependencies)
 
 **Body:**
 
-Hey r/webdev! I wanted to share a small tool I built that might save you some time: [OG Card Maker](https://og-card-maker.vercel.app)
+Hey r/webdev — sharing a tool I built for myself that other devs might find useful, plus some technical details on the approach.
 
-**The idea:** Generate Open Graph images entirely in the browser using the Canvas API. No server-side rendering, no Puppeteer, no headless Chrome.
+**The tool:** [OG Card Maker](https://og-card-maker.vercel.app) — generates Open Graph / social media preview images entirely client-side.
 
-**Why client-side?**
-- Zero hosting costs (static deploy on Vercel)
-- No cold starts or rate limits
-- User data never leaves the browser
+**Why client-side over the usual Puppeteer approach?**
+
+Most OG image generators use server-side rendering (Vercel's `@vercel/og`, Cloudinary, headless Chrome, etc.). They work great, but for a simple "gradient + text" card, spinning up a server felt like overkill. I wanted:
+- Zero hosting costs (no serverless cold starts)
+- No rate limits or API keys
+- Data stays in user's browser
 - Works offline once loaded
 
-**How it works:**
-- Canvas 2D context for rendering
-- CSS gradients recreated on canvas with linear/radial gradient fills
-- Pattern overlays using createPattern()
-- Text measurement with measureText() for responsive layouts
-- toBlob() + Clipboard API for one-click copy
+**Technical implementation:**
 
-**Features:**
-- 16+ gradient themes with texture overlays
-- Emoji rendering on canvas
-- Multiple aspect ratios: 1200x630 (OG), 1200x675 (Twitter), 1080x1080 (Square)
-- Export as PNG or copy directly to clipboard
+```
+Architecture: Single HTML file → Canvas 2D Context → toBlob() → Clipboard API
+```
 
-It supports the standard OG image sizes that platforms expect, so you can just drop the exported image into your meta tags or upload it directly.
+Key Canvas API patterns I used:
 
-Built it in one evening because I got tired of the Figma -> export -> upload workflow for every blog post. The code is pretty straightforward if anyone wants to build something similar.
+1. **Gradients:** Recreated CSS-like gradients using `createLinearGradient()` with angle math. Each theme is defined as `{ angle, stops: [{color, position}] }`.
 
-Free to use, no signup, no watermark: https://og-card-maker.vercel.app
+2. **Textures:** Drew patterns procedurally (no external images). Dots use `arc()`, grids use `moveTo()/lineTo()`, waves use `quadraticCurveTo()`. Applied with `globalAlpha` for subtle overlay effect.
 
-Happy to discuss the Canvas API approach if anyone has questions!
+3. **Text rendering:** This was the trickiest part. Canvas has no built-in multiline text support, so I had to:
+   - Use `measureText()` to calculate line widths
+   - Implement word-wrapping by measuring word-by-word
+   - Handle vertical centering manually
+   - Scale font size down if text overflows
+
+4. **Copy to clipboard:** `canvas.toBlob('image/png')` → `new ClipboardItem({'image/png': blob})` → `navigator.clipboard.write()`. Falls back to download if Clipboard API isn't available.
+
+5. **Emoji rendering:** Canvas renders emoji via the system font stack. Set `font-family` to include emoji fonts, then `fillText()` handles the rest. Cross-platform rendering varies slightly but works well enough.
+
+**What the tool offers:**
+- 16+ gradient presets with texture overlays
+- Three sizes: 1200x630 (OG/Facebook), 1200x675 (Twitter), 1080x1080 (Square/Instagram)
+- One-click copy or download
+- No signup, no watermark
+
+**Performance:** The entire page is ~50KB. No frameworks, no build step, no node_modules. First paint is essentially instant on Vercel's CDN.
+
+**Limitations I'm aware of:**
+- No custom fonts (system stack only, for now)
+- No image/logo upload
+- Preset colors only (custom picker coming)
+- Emoji rendering differs across OS
+
+Happy to discuss the Canvas rendering approach, text measurement quirks, or gradient math if anyone's interested. Source is vanilla JS if you want to peek or fork.
+
+Free to use: https://og-card-maker.vercel.app
 
 ---
 
-## 2. Twitter/X Thread
+## 2. Twitter/X Thread (7 tweets)
 
-**Tweet 1 (Hook):**
+### Tweet 1 (Hook — include a screenshot/GIF)
 
-I got tired of opening Figma every time I needed a social preview image.
+I built a free OG image generator in one evening.
 
-So I built a free tool that generates beautiful OG cards in 30 seconds.
+No signup.
+No watermark.
+No data uploaded.
+Runs 100% in your browser.
 
-No signup. No watermark. Runs entirely in your browser.
+→ 16+ themes
+→ 8 textures
+→ 3 export sizes
+→ One-click copy
+
+Here's the tool + the story 🧵
 
 https://og-card-maker.vercel.app
 
-🧵 Here's what it does:
+---
+
+### Tweet 2 (Problem)
+
+The problem:
+
+Every side project, every blog post, every shared link needs an OG image.
+
+My old workflow:
+1. Open Figma
+2. Create 1200x630 artboard
+3. Pick gradient colors
+4. Add text, align everything
+5. Export PNG
+6. Upload somewhere
+
+Time: 15-20 minutes for something people see for 0.5 seconds.
 
 ---
 
-**Tweet 2 (Features):**
+### Tweet 3 (Solution)
 
-What you get:
+The new workflow:
 
-🎨 16+ gradient themes
-🔲 8 texture patterns
-😀 Emoji icon support
-📐 Multiple sizes (OG, Twitter, Square)
+1. Open OG Card Maker
+2. Type title + subtitle
+3. Pick a theme
+4. Click "Copy"
+
+Time: 10 seconds.
+
+That's it. That's the whole tool.
+
+---
+
+### Tweet 4 (Features)
+
+What's inside:
+
+🎨 16+ gradient themes (curated, not random)
+🔲 8 texture patterns (dots, grid, waves, lines...)
+😀 Emoji icons
+📐 3 sizes: OG (1200x630), Twitter (1200x675), Square (1080x1080)
 📋 One-click copy to clipboard
-
-Everything renders client-side. Your data never touches a server.
-
----
-
-**Tweet 3 (Problem/Solution):**
-
-The problem I was solving:
-
-Every blog post, every project launch, every shared link needs an OG image.
-
-The old workflow: Open Figma → pick colors → add text → export → upload
-
-The new workflow: Type title → pick theme → copy. Done.
+💰 Cost: $0. Forever.
 
 ---
 
-**Tweet 4 (Technical):**
+### Tweet 5 (Technical / Build in Public)
 
-Built this in one evening with:
+Technical details:
 
-- Pure HTML/CSS/JS
-- Canvas API for rendering
-- Clipboard API for one-click copy
-- Deployed on Vercel (free tier)
+• Vanilla JS — no React, no framework
+• Canvas API for rendering
+• Textures drawn programmatically (no external assets)
+• Clipboard API for native copy
+• Single HTML file, ~50KB total
+• Deployed on Vercel free tier
+• Build time: ~4 hours one evening
 
-Total cost to run: $0/month
-Total time to build: ~4 hours
-
-Sometimes the best tool is the simplest one.
-
----
-
-**Tweet 5 (Use Cases):**
-
-Perfect for:
-
-→ Blog post preview images
-→ GitHub repo social cards
-→ Newsletter header images
-→ Tweet preview cards
-→ Product launch announcements
-→ Portfolio project cards
-
-Basically any link you want to look good when shared.
+Sometimes the simplest solution is the best one.
 
 ---
 
-**Tweet 6 (Social Proof / CTA):**
+### Tweet 6 (Use Cases + Soft CTA)
 
-Already using it for all my own projects.
+Who it's for:
 
-If you find it useful:
-⭐ Bookmark it for later
-🔄 RT so others can find it
-☕ Buy me a coffee if it saved you time
+• Indie hackers launching products
+• Bloggers who hate making thumbnails
+• Devs with GitHub repos that need social cards
+• Newsletter writers
+• Anyone who shares links and wants them to look good
 
-https://og-card-maker.vercel.app
+It's free, it'll stay free.
+
+If it saves you time, you can buy me a coffee ☕ (link on the site)
+But honestly just a "this is useful" reply makes my day.
 
 ---
 
-**Tweet 7 (Engagement):**
+### Tweet 7 (Engagement + Hashtags)
 
-What theme/feature should I add next?
+What should I build next?
 
 Thinking about:
-- Dark mode themes
-- Custom color picker
-- Logo/image upload
-- Template presets for specific platforms
+□ Custom color picker
+□ Font selection
+□ Logo/image upload
+□ Saved templates
+□ API for automation
 
-Drop your ideas below 👇
+What would be most useful? Reply below 👇
 
-#buildinpublic #webdev #indiedev #sideproject #ogimage #freetools #devtools
+#buildinpublic #indiehackers #webdev #devtools #sideproject #ogimage #freetools
 
 ---
 
-## 3. Hacker News - Show HN
+## 3. Hacker News — Show HN
 
 **Title:**
 
-Show HN: OG Card Maker - Free browser-based social media preview image generator
+```
+Show HN: OG Card Maker – Free browser-based social media preview image generator
+```
 
-**First comment (by you, right after posting):**
+**First comment (post immediately after submission):**
 
-Hey HN! I built this because the OG image workflow always felt unnecessarily heavy for what should be a simple task.
+Hi HN! I built this because my OG image workflow felt disproportionately heavy for what it produced.
 
-Most solutions I found either:
-- Required signup/accounts
-- Added watermarks on the free tier
-- Needed a backend (Puppeteer, headless Chrome, etc.)
-- Were part of a larger paid service
+The problem: Every blog post / side project / shared link needs a social preview image (Open Graph). The standard options are:
+- Figma (manual, 15-20 min each time)
+- Vercel's @vercel/og (requires backend/API route)
+- Cloudinary overlays (requires account + API key)
+- Canva (requires signup, adds watermark on free tier)
 
-OG Card Maker runs entirely in the browser using Canvas API. Pick a gradient, add your title and subtitle, choose a size, and copy it to your clipboard. That's it.
+I wanted something where I could type a title, pick a style, and get a 1200x630 PNG in under 10 seconds. With nothing uploaded anywhere.
 
-Technical details:
-- Pure client-side rendering with Canvas 2D
-- Gradient + texture compositing for visual variety
-- measureText() for responsive text layout
-- toBlob() + Clipboard API for native copy
+Technical approach:
+- Canvas 2D API for all rendering
+- Gradients computed with angle math → createLinearGradient()
+- Textures drawn procedurally (arc, lineTo, quadraticCurveTo) — no external assets
+- Text wrapping via measureText() word-by-word (Canvas has no native multiline support)
+- Export via canvas.toBlob() → Clipboard API
 - Static deploy on Vercel, zero running costs
 
-Limitations I'm aware of:
-- No custom font upload yet (uses system fonts)
-- No custom color picker (choosing from presets for now)
-- No image/logo upload
+Current limitations (being honest):
+- System fonts only (no custom font upload yet)
+- Preset themes only (no custom color picker yet)
+- No image/logo support
+- Emoji rendering varies by OS
 
-Would love feedback on what would make this more useful. I intentionally kept it minimal to ship fast, but happy to iterate based on what people actually need.
+The tool outputs standard sizes: 1200x630 (OG/Facebook/LinkedIn), 1200x675 (Twitter), 1080x1080 (Instagram/Square).
+
+I intentionally kept scope minimal to ship in one evening. Happy to iterate based on what people actually need.
+
+Would particularly appreciate feedback on:
+1. Are the preset themes varied enough, or is a custom color picker essential?
+2. Would anyone use an API/CLI version of this?
+3. Any sizes I'm missing for specific platforms?
 
 ---
 
 ## 4. Product Hunt Preparation
 
-**Tagline (60 chars max):**
+**Tagline (under 60 chars):**
 
-Beautiful social preview images in 30 seconds. Free forever.
+```
+Beautiful social preview images in 10 seconds. Free forever.
+```
 
 **Description:**
 
-OG Card Maker is a free, browser-based tool for generating social media preview images (Open Graph cards). No signup, no watermark, no backend.
+OG Card Maker is a free, browser-based tool for creating social media preview images (Open Graph cards) instantly.
 
-Choose from 16+ gradient themes and 8 texture patterns, add your title and subtitle with emoji icons, select your target size (OG 1200x630, Twitter 1200x675, or Square 1080x1080), and copy the result to your clipboard with one click.
+Stop spending 20 minutes in Figma for a social card. Pick a gradient theme, add a texture overlay, type your title, and copy to clipboard. Done in 10 seconds.
 
-Everything runs in your browser - your content never touches a server. Built for developers, designers, and content creators who need great-looking preview images without the Figma/Canva overhead.
+**Features:**
+- 16+ curated gradient themes
+- 8 texture/pattern overlays
+- Emoji icon support
+- Multiple sizes: OG (1200x630), Twitter (1200x675), Square (1080x1080)
+- One-click copy to clipboard
+- 100% client-side — your data never leaves your browser
+- No signup, no watermark, no cost
 
-**Topics:** Design Tools, Open Source, Developer Tools, Productivity
+Built for indie hackers, developers, bloggers, and anyone who ships things and needs OG images that don't look like an afterthought.
+
+**Topics/Categories:** Design Tools, Developer Tools, Productivity, Open Source
 
 **First Comment (Maker Comment):**
 
 Hey Product Hunt! 👋
 
-I'm the maker of OG Card Maker. I built this in one evening out of pure frustration.
+I'm the maker of OG Card Maker. Here's the honest backstory:
 
-Every time I shipped a side project or published a blog post, I'd spend 15-20 minutes in Figma just to create the OG image. It felt ridiculous for something that's essentially "gradient + text + export."
+I have a bunch of side projects, and the most annoying part of every launch is always the OG image. Not hard — just tedious. Open Figma, pick colors that look decent together, position text, export at the right dimensions, remember that Twitter uses different dimensions than Facebook...
 
-So I made a tool that does exactly that - nothing more, nothing less.
+One evening I thought: "What if I just built a tool that does this in 10 seconds?"
 
-**Why free?** Because it costs me literally $0 to run (static files on Vercel's free tier). There's no reason to charge for it.
+Four hours later, OG Card Maker was live. It uses the Canvas API to render everything client-side — no server, no uploads, no accounts needed. Pick a theme, type your text, copy to clipboard. That's the whole product.
 
-**Why no signup?** Because generating a preview image shouldn't require giving away your email.
+**Why free?** It costs me $0 to run (static files on Vercel's free tier). I can't justify charging for it.
 
-**What's next?** I'm thinking about adding custom colors, logo upload, and maybe a template gallery. Would love to hear what features would make this more useful for you!
+**Why no signup?** Because generating a preview image doesn't require my email address, so I'm not going to ask for yours.
 
-If you find it helpful and want to support future tools like this, I have a Buy Me a Coffee page linked on the site. But honestly, an upvote and feedback means just as much. 🙏
+I plan to add a custom color picker, font options, and maybe saved templates based on feedback. If you have ideas for what would make this more useful for your workflow, I'm all ears!
+
+And if it saves you time on your next launch day — a coffee fuels the next late-night build session ☕ (link on the site). But genuinely, just knowing people use it is reward enough.
+
+Happy launching! 🚀
 
 ---
 
 ## 5. Posting Time Recommendations
 
-All times in **US Eastern Time (ET)** since the primary audience is US-based developers/designers.
+All times in **US Eastern Time (ET)** — optimized for US + EU overlap.
 
-| Platform | Best Day | Best Time (ET) | Why |
-|----------|----------|-----------------|-----|
-| Reddit (r/InternetIsBeautiful) | Tuesday or Wednesday | 8:00 - 9:00 AM | Catches morning browsing; mid-week = higher engagement |
-| Reddit (r/SideProject) | Monday or Thursday | 9:00 - 11:00 AM | Builders are active early week |
-| Reddit (r/webdev) | Tuesday or Wednesday | 10:00 - 12:00 PM | Devs browse during work breaks |
-| Twitter/X | Tuesday - Thursday | 8:00 - 10:00 AM | Morning scroll; avoid weekends for tech content |
-| Hacker News | Tuesday or Wednesday | 8:00 - 9:00 AM | Catches US morning + European afternoon |
-| Product Hunt | Tuesday - Thursday | 12:01 AM PT (3:01 AM ET) | PH day starts at midnight PT; early launch = full day of voting |
+| Platform | Best Days | Best Time (ET) | Reasoning |
+|----------|-----------|-----------------|-----------|
+| r/InternetIsBeautiful | Tue–Thu | 7:00–9:00 AM | US morning browsing + EU still online in afternoon |
+| r/SideProject | Mon–Wed | 8:00–10:00 AM | Indie hackers check feeds early in the week |
+| r/webdev | Tue–Thu | 9:00–11:00 AM | Devs browse before entering deep work |
+| Twitter/X | Tue–Wed | 8:00–10:00 AM | Peak tech Twitter engagement window |
+| Hacker News | Tue–Thu | 8:30–10:00 AM | US waking up + EU afternoon = maximum eyeballs |
+| Product Hunt | Tue–Thu | 12:01 AM PT (3:01 AM ET) | PH resets at midnight PT; early = maximum voting time |
 
-**Posting Strategy for 2-day Sprint:**
+### Recommended 2-Day Execution Schedule
 
-- **Day 1 Morning:** Post Hacker News (Show HN) + Twitter thread + Reddit r/webdev
-- **Day 1 Afternoon:** Post Reddit r/InternetIsBeautiful
-- **Day 2 Morning:** Post Reddit r/SideProject + engage with all comments from Day 1
-- **Day 2:** Save Product Hunt for a separate day (it deserves its own launch day, and you'll have social proof from other platforms by then)
+**Day 1 (Tuesday):**
 
-**Time Zone Tip:** Schedule posts to hit when US East Coast is waking up (7-9 AM ET). This catches both US users and European users still online in the afternoon.
+| Time (ET) | Action |
+|-----------|--------|
+| 8:00 AM | Post Hacker News (Show HN) — immediately post your first comment |
+| 8:15 AM | Post Twitter/X thread — include screenshot in first tweet |
+| 9:00 AM | Post r/InternetIsBeautiful |
+| 9:00 AM–12:00 PM | Actively respond to ALL comments on HN and Twitter |
+| 2:00 PM | Post r/webdev |
+| 2:00–5:00 PM | Continue engaging with comments everywhere |
+
+**Day 2 (Wednesday):**
+
+| Time (ET) | Action |
+|-----------|--------|
+| 8:00 AM | Post r/SideProject |
+| 8:30 AM | Quote-tweet your original thread with a "Day 2 update" |
+| 9:00 AM–12:00 PM | Engage with Day 1 comments + new Day 2 comments |
+| 12:00 PM | Check HN — if it's still on the front page, keep responding |
+| 3:00 PM | If reception is good, share in relevant Discord/Slack communities |
+
+**Day 3+ (if needed):**
+- Product Hunt launch (prep the night before, launch at 12:01 AM PT Tuesday)
+- Only do PH after you have some social proof (comments, tweets, etc.)
 
 ---
 
-## 6. Platform Rules & Tips to Avoid Deletion
+## 6. Platform Rules & Anti-Deletion Tips
 
-### Reddit General Rules:
-- ✅ DO engage with every comment genuinely
-- ✅ DO have some non-promotional post history before posting (comment on other posts first)
-- ✅ DO use Reddit's "OC" or link flair if available
-- ❌ DON'T post to multiple subreddits within the same hour (looks spammy)
-- ❌ DON'T use URL shorteners
-- ❌ DON'T ask for upvotes
-- ❌ DON'T mention monetization in the title
+### Reddit — Universal Rules
 
-### r/InternetIsBeautiful Specific:
-- Must be a direct link post (URL as the post link, not a text post with link inside)
-- Site must be interactive/useful, not just a landing page
-- No "app" or "tool I made" in the title - frame it as the thing itself
-- Keep title factual, not clickbaity
+| Do | Don't |
+|----|-------|
+| ✅ Engage genuinely with every comment | ❌ Post the same link to multiple subs within 2-3 hours |
+| ✅ Have non-promotional comment history (10+ comments in other subs first) | ❌ Use URL shorteners |
+| ✅ Vary your wording significantly across subreddits | ❌ Ask for upvotes anywhere |
+| ✅ Stay active for 2-3 hours after posting | ❌ Mention "upvote" or "viral" |
+| ✅ Your account should be 30+ days old with positive karma | ❌ Copy-paste identical text across subs |
+| ✅ Respond to critical comments gracefully | ❌ Delete and repost if it doesn't take off immediately |
 
-### r/SideProject Specific:
-- Text posts perform better here
-- Share the story/journey, not just the tool
-- Mention it's free/open - this community respects generosity
-- Asking for feedback is well-received here
+### r/InternetIsBeautiful — Specific Rules
+- The site must be **interactive** — a static landing page will be removed
+- Prefer factual, descriptive titles (not "I made the BEST tool ever")
+- Some mods prefer link posts (URL as the post) over text posts — check current top posts
+- The tool must be **free to use** (✓ we qualify)
+- Don't include your "journey" or "story" — just describe what the tool does
+- Avoid "I" in the title if possible (but "I made" is sometimes allowed — check recent posts)
 
-### r/webdev Specific:
-- Technical depth is expected - share implementation details
-- "Show off Saturday" thread is an alternative if direct posts get removed
-- Don't make it sound like an ad - frame it as a technical discussion
-- Flair your post appropriately (usually "Showoff Saturday" or "Resource")
+### r/SideProject — Specific Rules
+- Text posts with storytelling do best here
+- Build-in-public narrative is welcomed and expected
+- You CAN mention Buy Me a Coffee — this community supports makers
+- Share numbers (build time, cost, etc.) — transparency wins here
+- Asking for feedback at the end is expected
+- Flair your post correctly
 
-### Twitter/X Tips:
-- First tweet needs a hook (problem statement or bold claim)
-- Include a screenshot or screen recording in first tweet
-- Thread should be 5-7 tweets max
-- Use hashtags only in the last tweet (cleaner look)
+### r/webdev — Specific Rules
+- **Must provide technical value** — a pure promo post will be removed
+- Include code snippets, architecture decisions, or technical learnings
+- Frame it as "here's an interesting technical approach" not "look at my product"
+- Alternative: Post in the weekly "Showoff Saturday" thread if your standalone post gets removed
+- Don't use marketing language ("revolutionary", "game-changing")
+
+### Hacker News — Rules & Culture
+- Title format must be: `Show HN: [Name] – [factual description]`
+- **Post your explanatory comment immediately** (within 60 seconds of submission)
+- Never ask for upvotes (anywhere — not on Twitter, not in DMs, nowhere)
+- Be honest about limitations — HN respects intellectual honesty
+- Respond to every comment, especially skeptical/critical ones
+- Don't use superlatives or marketing language
+- If flagged/killed, email dang@ycombinator.com — don't repost
+- Having a live demo + source code significantly increases trust
+- HN audience values "does one thing well" — don't oversell scope
+
+### Twitter/X — Best Practices
+- First tweet must be self-contained (many won't click "Show more")
+- **Include a screenshot or GIF in tweet 1** (2-3x engagement boost)
+- Keep hashtags to 2-3 max in the first tweet; dump the rest in the final tweet
 - Pin the thread to your profile
-- Reply to yourself with the Buy Me a Coffee link (not in the main thread)
+- Don't put the BMC link in the main thread — add it as a reply or in your bio
+- Engage with replies within the first hour (algorithm rewards early engagement)
+- Quote-tweet > plain retweet for your own content
 
-### Hacker News Tips:
-- Title format: "Show HN: [Name] – [one-line description]"
-- Don't use superlatives ("best", "amazing", "revolutionary")
-- Post your explanatory comment immediately after submitting
-- Be honest about limitations
-- Respond to every comment, especially critical ones
-- Don't ask people to upvote (instant death)
-- HN audience values simplicity and "does one thing well"
-
-### Product Hunt Tips:
-- Launch on Tuesday-Thursday for best results
-- Have a GIF/video showing the tool in action
-- Respond to every comment within minutes
-- Get 3-5 friends to leave genuine comments early
-- Hunter vs Maker: Launch as maker (self-hunt is fine now)
-- Thumbnail should be clean with readable text
-
-### General Anti-Spam Tips:
-- Space out your posts: minimum 2-3 hours between platforms
-- Don't copy-paste the exact same text across platforms
-- Engage authentically in comments (not just "thanks!")
-- If a post gets removed, don't repost immediately - message mods first
-- Your account should not look like it was created just to promote
+### Product Hunt — Rules & Strategy
+- Best days: Tuesday, Wednesday, Thursday
+- Launch at 12:01 AM PT to maximize voting time
+- Have all assets ready: logo (240x240), gallery images (1270x760), GIF/video
+- Reply to every comment within 30 minutes
+- Get 3-5 supporters to leave genuine (not generic) comments early
+- Self-hunting is fine (you don't need an external hunter)
+- Don't ask for upvotes in DMs — PH penalizes this
+- One launch per product — make it count
 
 ---
 
-## 7. Quick Reference: Buy Me a Coffee Integration
+## 7. Buy Me a Coffee — Integration Strategy
 
-**How to subtly include BMC without being pushy:**
+### On the Tool Itself (Critical)
+- Place a small, non-intrusive "☕ Buy me a coffee" button in the footer
+- **Best placement:** Show it AFTER user has copied/downloaded their first image (they've received value first)
+- Alternative: Subtle floating badge in bottom-right corner
+- Copy suggestion: `"Made in one evening with ☕ — Buy me a coffee if this saved you time"`
+- Don't make it a popup or modal — that kills goodwill
 
-- On Reddit: Mention it only if someone asks "how can I support?" or put it in an edit after positive reception
-- On Twitter: Add BMC link as a reply to the thread, not in the main tweets. Or put it in bio.
-- On HN: Don't mention it at all in the post. It should be discoverable on the site itself.
-- On Product Hunt: Mention it naturally in maker comment ("if you want to support future tools...")
+### Per Platform — When to Mention BMC
 
-**On the tool itself:**
-- Small, non-intrusive "Buy Me a Coffee ☕" link in footer or corner
-- Only show it after the user has successfully generated/copied an image (they've gotten value first)
-- A subtle "Made with ❤️ by [name] | Support this project" works well
+| Platform | BMC Strategy |
+|----------|--------------|
+| r/InternetIsBeautiful | ❌ Never mention in post. Let them find it on the site. |
+| r/SideProject | ✅ Casual mention at the end is fine ("if you want to fuel more builds...") |
+| r/webdev | ❌ Don't mention. Focus on technical value. |
+| Twitter/X | ⚠️ Mention in tweet 6 casually, or add as a reply to the thread |
+| Hacker News | ❌ Never mention. HN will downvote promotional content. |
+| Product Hunt | ✅ Brief mention in maker comment ("coffee fuels late-night builds") |
 
----
-
-## 8. Engagement Templates
-
-**When someone says "this is cool":**
-> Thanks! What would make it even more useful for your workflow? I'm planning to add more features based on feedback.
-
-**When someone asks about the tech:**
-> Built with vanilla JS + Canvas API, deployed on Vercel free tier. The whole thing is client-side so your data never leaves your browser. Happy to go deeper on any part!
-
-**When someone asks "why free?":**
-> Honestly, it costs me $0 to run (static site on Vercel's free tier) and it only took one evening to build. Felt wrong to charge for something this simple. If you want to support future tools, there's a Buy Me a Coffee link on the site, but zero pressure.
-
-**When someone suggests a feature:**
-> Great idea! Added to my list. If you want to follow along, I'm building in public on Twitter [@handle]. That kind of feedback is exactly what helps me prioritize.
-
-**When a post gets traction:**
-> Edit: Wow, didn't expect this response! For everyone asking about [common question] - [answer]. And if you hit any bugs, let me know in the comments. Shipping fixes tonight.
+### Psychology Tips
+- People tip when they feel **grateful** and **connected** — not when they feel pressured
+- The "one evening build" story creates relatability
+- "$0 to run" makes people think "this person isn't making money, I should support them"
+- Responding to comments personally makes people more likely to support
 
 ---
 
-## Checklist Before Posting
+## 8. Engagement Response Templates
 
-- [ ] Tool is live and working (test the URL)
-- [ ] Buy Me a Coffee link is visible on the site
-- [ ] Your Reddit account has recent non-promotional activity
-- [ ] Your Twitter bio mentions you build tools/side projects
-- [ ] Screenshots/GIFs are ready for Twitter and Product Hunt
-- [ ] You have 2-3 hours blocked to respond to comments after posting
-- [ ] Mobile experience works (many users will click from phone)
-- [ ] The site loads fast (Vercel CDN should handle this)
+### When someone says "cool tool!" or "this is useful":
+> Thanks! Curious — what are you using it for? Blog posts, project launches, something else? Always love hearing use cases I haven't thought of.
+
+### When someone asks for a feature:
+> Great idea! Adding it to the list. What's your workflow — are you making OG images for a blog, social posts, or something else? Helps me prioritize.
+
+### When someone compares it to Canva/Figma/other tools:
+> Totally — [tool] is great for complex designs! I built this for the specific case where you just need a clean OG card in 10 seconds without signing up for anything. Different tools for different moments.
+
+### When someone asks about the tech:
+> Vanilla JS + Canvas API, no dependencies. The trickiest part was text wrapping — Canvas has no built-in multiline support, so you have to measure word-by-word with measureText() and manually break lines. Surprisingly fun to implement though.
+
+### When someone asks "why free?":
+> Honestly, it costs me $0/month to run (static files on Vercel free tier). I can't justify charging for something this simple. If it saves you time and you want to toss me a coffee, there's a link on the site — but genuinely no pressure.
+
+### When someone is skeptical ("yet another OG tool"):
+> Fair point — there are a lot of these! The difference here is: no signup, no watermark, no upload, runs entirely in your browser. I built it because the existing options all had at least one of those friction points. But yeah, if your current workflow works for you, no need to switch.
+
+### When a post gets unexpected traction:
+> Edit: Wow, wasn't expecting this response! A few common questions I'm seeing:
+>
+> **Q: Is it open source?** [Answer]
+> **Q: Can I add custom colors?** Coming soon!
+> **Q: Does it work on mobile?** Yes!
+>
+> Thanks for all the feedback — shipping updates tonight based on what I'm hearing here.
+
+---
+
+## 9. Pre-Launch Checklist
+
+### Before Posting Anywhere:
+
+- [ ] Tool is live and fully functional at https://og-card-maker.vercel.app
+- [ ] Tested on mobile (many will click from phone)
+- [ ] Buy Me a Coffee link is visible on the site (footer or post-export)
+- [ ] BMC page is set up with a friendly message and $1 minimum option
+- [ ] Site loads fast (test on WebPageTest or Lighthouse)
+- [ ] All 3 export sizes work correctly
+- [ ] Copy-to-clipboard works in Chrome, Firefox, Safari
+- [ ] Screenshot/GIF prepared showing the tool in action
+- [ ] Reddit account has 10+ non-promotional comments in last month
+- [ ] Twitter bio mentions building tools/side projects
+- [ ] You have 2-3 hours blocked for engagement after each post
+- [ ] GitHub repo is public (if applicable) — increases trust on HN
+
+### Screenshots to Prepare:
+1. The tool with a beautiful gradient selected (hero shot)
+2. Before/after: blank form → finished OG card
+3. The copy-to-clipboard success state
+4. A real OG card being used in a Twitter card preview
+
+---
+
+## 10. Measuring Success
+
+### Key Metrics to Track:
+- **Vercel Analytics:** Unique visitors per day (if enabled)
+- **Buy Me a Coffee:** Tips received (the goal!)
+- **Reddit:** Upvotes, comment engagement, crosspost shares
+- **Twitter:** Impressions, link clicks, retweets, thread views
+- **HN:** Points, rank position, time on front page
+- **Direct:** People mentioning the tool organically
+
+### If Things Aren't Working After Day 1:
+1. Check if posts were silently removed (Reddit spam filter)
+2. Try a different angle in r/SideProject (more personal story)
+3. Reply to relevant tweets with your tool as a helpful suggestion (don't spam)
+4. Share in niche Discord communities (Indie Hackers, WIP, etc.)
+5. Post in relevant dev.to or Hashnode communities
 
 ---
 
 *Last updated: May 2026*
+*Remember: Authenticity > marketing. People support makers they like, not products they admire.*
