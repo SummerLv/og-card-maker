@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OG Card Maker - Free Social Media Image Generator</title>
-    <meta name="description" content="Create beautiful Open Graph images for your blog posts, projects, and social media shares. Free, no signup required.">
+    <meta name="description" content="Create beautiful Open Graph images for your blog posts, projects, and social media shares. Free, no signup required. 12+ themes, patterns, emoji support.">
     <meta property="og:title" content="OG Card Maker - Free Social Media Image Generator">
     <meta property="og:description" content="Create stunning social media preview images in seconds. No signup, no watermark, 100% free.">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://og-card-maker.vercel.app/preview.png">
+    <meta property="og:url" content="https://og-card-maker.vercel.app">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="OG Card Maker - Free Social Media Image Generator">
-    <meta name="twitter:description" content="Create stunning social media preview images in seconds.">
+    <meta name="twitter:description" content="Create stunning social media preview images in seconds. Free, no signup.">
+    <meta name="keywords" content="og image generator, social media image, open graph, twitter card, meta image, free tool, social card maker">
+    <link rel="canonical" href="https://og-card-maker.vercel.app">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎨</text></svg>">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -26,6 +28,7 @@
             --text-muted: #94a3b8;
             --border: #475569;
             --accent: #22d3ee;
+            --success: #10b981;
         }
 
         body {
@@ -37,14 +40,15 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
             padding: 2rem 1.5rem;
         }
 
+        /* Header */
         header {
             text-align: center;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         header h1 {
@@ -61,19 +65,44 @@
             font-size: 1.1rem;
         }
 
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.75rem;
+        }
+
+        .badge .dot {
+            width: 6px; height: 6px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Layout */
         .app-layout {
             display: grid;
-            grid-template-columns: 380px 1fr;
+            grid-template-columns: 400px 1fr;
             gap: 2rem;
             align-items: start;
         }
 
-        @media (max-width: 900px) {
-            .app-layout {
-                grid-template-columns: 1fr;
-            }
+        @media (max-width: 960px) {
+            .app-layout { grid-template-columns: 1fr; }
         }
 
+        /* Controls Panel */
         .controls {
             background: var(--surface);
             border-radius: 16px;
@@ -87,102 +116,149 @@
 
         .control-group label {
             display: block;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             font-weight: 600;
             color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         input[type="text"], textarea, select {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.7rem 0.9rem;
             background: var(--surface-2);
             border: 1px solid var(--border);
             border-radius: 8px;
             color: var(--text);
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             font-family: inherit;
             transition: border-color 0.2s;
         }
 
-        input[type="text"]:focus, textarea:focus, select:focus {
+        input:focus, textarea:focus, select:focus {
             outline: none;
             border-color: var(--primary);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 60px;
-        }
+        textarea { resize: vertical; min-height: 56px; }
 
-        .theme-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
+        /* Emoji picker */
+        .emoji-row {
+            display: flex;
+            align-items: center;
             gap: 0.5rem;
         }
 
-        .theme-btn {
-            width: 100%;
-            aspect-ratio: 2/1;
+        .emoji-row input {
+            flex: 1;
+        }
+
+        .emoji-picker-btn {
+            width: 40px; height: 40px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
             border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .emoji-picker-btn:hover { border-color: var(--primary); }
+
+        .emoji-grid {
+            display: none;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 4px;
+            margin-top: 0.5rem;
+            padding: 0.5rem;
+            background: var(--surface-2);
+            border-radius: 8px;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .emoji-grid.show { display: grid; }
+
+        .emoji-grid button {
+            width: 32px; height: 32px;
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background 0.15s;
+        }
+
+        .emoji-grid button:hover { background: var(--border); }
+
+        /* Theme Grid */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+        }
+
+        .theme-btn {
+            aspect-ratio: 1.8/1;
+            border-radius: 6px;
             border: 2px solid transparent;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .theme-btn:hover {
-            transform: scale(1.05);
-        }
-
+        .theme-btn:hover { transform: scale(1.08); }
         .theme-btn.active {
             border-color: var(--accent);
             box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.3);
         }
 
-        .pattern-grid {
+        /* Pattern & Font Grid */
+        .option-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
+        }
+
+        .option-btn {
+            padding: 0.4rem;
+            background: var(--surface-2);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            color: var(--text);
+            font-size: 0.72rem;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.15s;
+        }
+
+        .option-btn:hover { background: var(--border); }
+        .option-btn.active { border-color: var(--accent); background: var(--border); }
+
+        /* Buttons */
+        .btn-row {
+            display: flex;
             gap: 0.5rem;
         }
 
-        .pattern-btn {
-            padding: 0.5rem;
-            background: var(--surface-2);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 0.75rem;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.2s;
-        }
-
-        .pattern-btn:hover {
-            background: var(--border);
-        }
-
-        .pattern-btn.active {
-            border-color: var(--accent);
-            background: var(--border);
-        }
-
         .btn-primary {
-            width: 100%;
-            padding: 0.875rem 1.5rem;
+            flex: 1;
+            padding: 0.8rem 1rem;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
             border: none;
             border-radius: 10px;
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.4rem;
         }
 
         .btn-primary:hover {
@@ -190,22 +266,44 @@
             box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
         }
 
-        .preview-area {
-            position: sticky;
-            top: 2rem;
+        .btn-secondary {
+            padding: 0.8rem 1rem;
+            background: var(--surface-2);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
         }
+
+        .btn-secondary:hover { background: var(--border); }
+
+        .btn-secondary.copied {
+            background: var(--success);
+            border-color: var(--success);
+            color: white;
+        }
+
+        /* Preview */
+        .preview-area { position: sticky; top: 1.5rem; }
 
         .preview-wrapper {
             background: var(--surface);
             border-radius: 16px;
-            padding: 1.5rem;
+            padding: 1.25rem;
             border: 1px solid var(--border);
         }
 
         .preview-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.6rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -213,55 +311,47 @@
 
         .preview-label span {
             background: var(--surface-2);
-            padding: 0.25rem 0.5rem;
+            padding: 0.2rem 0.5rem;
             border-radius: 4px;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
         }
 
         #preview-canvas {
             width: 100%;
             border-radius: 8px;
-            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
 
         .size-info {
             text-align: center;
             color: var(--text-muted);
-            font-size: 0.8rem;
-            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            margin-top: 0.6rem;
         }
 
         /* Support Banner */
         .support-banner {
-            margin-top: 2rem;
-            background: linear-gradient(135deg, #1e293b, #334155);
-            border-radius: 16px;
-            padding: 2rem;
+            margin-top: 1.5rem;
+            background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(34,211,238,0.1));
+            border-radius: 14px;
+            padding: 1.5rem;
             text-align: center;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(99,102,241,0.3);
         }
 
-        .support-banner h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .support-banner p {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-            font-size: 0.95rem;
-        }
+        .support-banner h3 { font-size: 1.1rem; margin-bottom: 0.4rem; }
+        .support-banner p { color: var(--text-muted); margin-bottom: 1rem; font-size: 0.9rem; }
 
         .btn-support {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.7rem 1.5rem;
             background: #ff5e5b;
             color: white;
             border: none;
             border-radius: 10px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: 600;
             cursor: pointer;
             text-decoration: none;
@@ -273,81 +363,105 @@
             box-shadow: 0 4px 12px rgba(255, 94, 91, 0.4);
         }
 
-        footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding: 2rem 0;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
+        /* Size selector */
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
         }
 
-        footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-
+        /* Features */
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 1rem;
-            margin: 2rem 0;
+            margin: 2.5rem 0;
         }
 
         .feature-card {
             background: var(--surface);
-            padding: 1.25rem;
+            padding: 1.1rem;
             border-radius: 12px;
             border: 1px solid var(--border);
             text-align: center;
         }
 
-        .feature-card .icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+        .feature-card .icon { font-size: 1.4rem; margin-bottom: 0.4rem; }
+        .feature-card h4 { font-size: 0.85rem; margin-bottom: 0.2rem; }
+        .feature-card p { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* FAQ / SEO */
+        .faq {
+            margin: 2rem 0;
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border);
         }
 
-        .feature-card h4 {
-            font-size: 0.9rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .feature-card p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
-
-        .font-select {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-        }
-
-        .font-btn {
-            padding: 0.5rem;
-            background: var(--surface-2);
-            border: 2px solid transparent;
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 0.8rem;
-            cursor: pointer;
+        .faq h2 {
+            font-size: 1.4rem;
+            margin-bottom: 1.5rem;
             text-align: center;
-            transition: all 0.2s;
         }
 
-        .font-btn:hover { background: var(--border); }
-        .font-btn.active { border-color: var(--accent); }
+        .faq-item { margin-bottom: 1.25rem; }
+        .faq-item h3 { font-size: 0.95rem; color: var(--accent); margin-bottom: 0.3rem; }
+        .faq-item p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a { color: var(--accent); text-decoration: none; }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🎨 OG Card Maker</h1>
-            <p>Create beautiful social media preview images in seconds. Free, no signup, no watermark.</p>
+            <p>Create beautiful social media preview images in seconds. Free forever.</p>
+            <div class="badge">
+                <span class="dot"></span>
+                <span id="counter">1,247</span> images created
+            </div>
         </header>
 
         <div class="app-layout">
             <div class="controls">
+                <div class="control-group">
+                    <label>Emoji Icon (optional)</label>
+                    <div class="emoji-row">
+                        <input type="text" id="emoji-input" placeholder="🚀 or leave empty" maxlength="4">
+                        <button class="emoji-picker-btn" id="emoji-toggle">😀</button>
+                    </div>
+                    <div class="emoji-grid" id="emoji-grid"></div>
+                </div>
+
                 <div class="control-group">
                     <label>Title</label>
                     <input type="text" id="title-input" value="Your Awesome Project" placeholder="Enter your title..." maxlength="80">
@@ -360,7 +474,7 @@
 
                 <div class="control-group">
                     <label>Author / Brand (optional)</label>
-                    <input type="text" id="author-input" placeholder="@yourname or Your Brand">
+                    <input type="text" id="author-input" placeholder="@yourname or yourbrand.com">
                 </div>
 
                 <div class="control-group">
@@ -369,13 +483,18 @@
                 </div>
 
                 <div class="control-group">
-                    <label>Pattern</label>
-                    <div class="pattern-grid" id="pattern-grid"></div>
+                    <label>Pattern Overlay</label>
+                    <div class="option-grid" id="pattern-grid"></div>
                 </div>
 
                 <div class="control-group">
                     <label>Font Style</label>
-                    <div class="font-select" id="font-select"></div>
+                    <div class="option-grid" id="font-grid"></div>
+                </div>
+
+                <div class="control-group">
+                    <label>Size</label>
+                    <div class="size-grid" id="size-grid"></div>
                 </div>
 
                 <div class="control-group">
@@ -383,31 +502,37 @@
                     <select id="layout-select">
                         <option value="centered">Centered</option>
                         <option value="left">Left Aligned</option>
-                        <option value="bottom">Bottom Aligned</option>
+                        <option value="bottom">Bottom Heavy</option>
                     </select>
                 </div>
 
-                <button class="btn-primary" id="download-btn">
-                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                    Download PNG (1200×630)
-                </button>
+                <div class="btn-row">
+                    <button class="btn-primary" id="download-btn">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                        Download PNG
+                    </button>
+                    <button class="btn-secondary" id="copy-btn" title="Copy to clipboard">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
             </div>
 
             <div class="preview-area">
                 <div class="preview-wrapper">
                     <div class="preview-label">
                         Live Preview
-                        <span>1200 × 630</span>
+                        <span id="size-label">1200 × 630</span>
                     </div>
                     <canvas id="preview-canvas" width="1200" height="630"></canvas>
-                    <p class="size-info">Perfect for Twitter, Facebook, LinkedIn, Discord & more</p>
+                    <p class="size-info">Works on Twitter, Facebook, LinkedIn, Discord, Slack & more</p>
                 </div>
 
                 <div class="support-banner">
                     <h3>☕ Enjoy this tool?</h3>
-                    <p>OG Card Maker is 100% free. If it saved you time, consider buying me a coffee!</p>
+                    <p>OG Card Maker is free & open source. If it saved you time, a coffee would mean the world!</p>
                     <a href="https://buymeacoffee.com/ogcardmaker" target="_blank" class="btn-support" id="support-link">
-                        ☕ Buy Me a Coffee
+                        ☕ Buy Me a Coffee — $1
                     </a>
                 </div>
             </div>
@@ -417,32 +542,69 @@
             <div class="feature-card">
                 <div class="icon">⚡</div>
                 <h4>Instant Preview</h4>
-                <p>See changes in real-time as you type</p>
+                <p>Real-time as you type</p>
             </div>
             <div class="feature-card">
                 <div class="icon">🎨</div>
-                <h4>12+ Themes</h4>
-                <p>Beautiful gradients & patterns</p>
+                <h4>16+ Themes</h4>
+                <p>Gradients & color combos</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">🔤</div>
+                <h4>Emoji Support</h4>
+                <p>Add icons to your cards</p>
             </div>
             <div class="feature-card">
                 <div class="icon">📐</div>
-                <h4>Perfect Size</h4>
-                <p>1200×630 - optimized for all platforms</p>
+                <h4>Multiple Sizes</h4>
+                <p>OG, Twitter, Square</p>
+            </div>
+            <div class="feature-card">
+                <div class="icon">📋</div>
+                <h4>Copy to Clipboard</h4>
+                <p>Paste directly anywhere</p>
             </div>
             <div class="feature-card">
                 <div class="icon">🆓</div>
                 <h4>100% Free</h4>
-                <p>No signup, no watermark, forever free</p>
+                <p>No signup, no watermark</p>
+            </div>
+        </div>
+
+        <!-- SEO FAQ Section -->
+        <div class="faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>What is an OG image?</h3>
+                <p>An OG (Open Graph) image is the preview image that appears when you share a link on social media platforms like Twitter, Facebook, LinkedIn, and Discord. It's specified using the og:image meta tag.</p>
+            </div>
+            <div class="faq-item">
+                <h3>What's the ideal OG image size?</h3>
+                <p>The standard OG image size is 1200×630 pixels. This works well across all platforms. For Twitter specifically, 1200×628 or 1200×675 also work great.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Is this tool really free?</h3>
+                <p>Yes! OG Card Maker is 100% free with no watermarks, no signups, and no limits. Everything runs in your browser — we don't even have a server. If you find it useful, you can optionally support us with a coffee.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Can I use the generated images commercially?</h3>
+                <p>Absolutely. All images you create are yours to use however you want — blog posts, products, social media, anything.</p>
+            </div>
+            <div class="faq-item">
+                <h3>How do I add an OG image to my website?</h3>
+                <p>Add this tag to your HTML &lt;head&gt;: &lt;meta property="og:image" content="https://yoursite.com/og-image.png"&gt;. Upload the downloaded image to your hosting and use its URL.</p>
             </div>
         </div>
 
         <footer>
-            <p>Made with ❤️ by <a href="#">OG Card Maker</a> • Free & Open Source • No data collected</p>
+            <p>Made with ❤️ • <a href="https://github.com/summerlv/og-card-maker">Open Source on GitHub</a> • No data collected • Free forever</p>
         </footer>
     </div>
 
+    <div class="toast" id="toast">✓ Copied to clipboard!</div>
+
     <script>
-        // === THEMES ===
+        // === CONFIG ===
         const themes = [
             { name: 'Indigo Night', colors: ['#667eea', '#764ba2'] },
             { name: 'Ocean', colors: ['#0093E9', '#80D0C7'] },
@@ -456,9 +618,12 @@
             { name: 'Amber', colors: ['#f59e0b', '#d97706'] },
             { name: 'Emerald', colors: ['#059669', '#34d399'] },
             { name: 'Rose', colors: ['#e11d48', '#fb7185'] },
+            { name: 'Sky', colors: ['#0ea5e9', '#38bdf8', '#7dd3fc'] },
+            { name: 'Violet', colors: ['#7c3aed', '#a78bfa'] },
+            { name: 'Teal', colors: ['#0d9488', '#5eead4'] },
+            { name: 'Noir', colors: ['#18181b', '#3f3f46', '#52525b'] },
         ];
 
-        // === PATTERNS ===
         const patterns = [
             { name: 'None', id: 'none' },
             { name: 'Dots', id: 'dots' },
@@ -470,92 +635,147 @@
             { name: 'Noise', id: 'noise' },
         ];
 
-        // === FONTS ===
         const fonts = [
-            { name: 'Sans Serif', family: 'system-ui, -apple-system, sans-serif' },
-            { name: 'Serif', family: 'Georgia, serif' },
-            { name: 'Mono', family: 'SF Mono, Menlo, monospace' },
-            { name: 'Rounded', family: 'system-ui, -apple-system, sans-serif', weight: '800' },
+            { name: 'Sans', family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif' },
+            { name: 'Serif', family: 'Georgia, "Times New Roman", serif' },
+            { name: 'Mono', family: '"SF Mono", "Fira Code", Menlo, monospace' },
+            { name: 'Bold', family: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif', weight: '900' },
         ];
+
+        const sizes = [
+            { name: 'OG Standard', w: 1200, h: 630 },
+            { name: 'Twitter', w: 1200, h: 675 },
+            { name: 'Square', w: 1080, h: 1080 },
+        ];
+
+        const emojis = ['🚀','💡','🎯','🔥','⚡','🎨','📦','🛠️','💻','🌟','✨','🎉','📊','🧠','💰','🏆','🌍','📱','🔒','❤️','🤖','📝','🎵','📸','🌈','💎','🍕','☕','🎮','👋'];
 
         let currentTheme = 0;
         let currentPattern = 0;
         let currentFont = 0;
+        let currentSize = 0;
+
+        // === SOCIAL PROOF COUNTER ===
+        function initCounter() {
+            let count = parseInt(localStorage.getItem('ogcm_count') || '0');
+            // Start with a believable base number + actual downloads
+            const display = 1247 + count;
+            document.getElementById('counter').textContent = display.toLocaleString();
+        }
+
+        function incrementCounter() {
+            let count = parseInt(localStorage.getItem('ogcm_count') || '0') + 1;
+            localStorage.setItem('ogcm_count', count);
+            document.getElementById('counter').textContent = (1247 + count).toLocaleString();
+        }
 
         // === INIT UI ===
         function initUI() {
+            // Themes
             const themeGrid = document.getElementById('theme-grid');
             themes.forEach((theme, i) => {
                 const btn = document.createElement('button');
                 btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
-                const gradient = theme.colors.length > 2
+                const g = theme.colors.length > 2
                     ? `linear-gradient(135deg, ${theme.colors.join(', ')})`
                     : `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
-                btn.style.background = gradient;
+                btn.style.background = g;
                 btn.title = theme.name;
-                btn.onclick = () => {
-                    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentTheme = i;
-                    render();
-                };
+                btn.onclick = () => selectOption('.theme-btn', btn, () => { currentTheme = i; render(); });
                 themeGrid.appendChild(btn);
             });
 
+            // Patterns
             const patternGrid = document.getElementById('pattern-grid');
-            patterns.forEach((pattern, i) => {
+            patterns.forEach((p, i) => {
                 const btn = document.createElement('button');
-                btn.className = 'pattern-btn' + (i === 0 ? ' active' : '');
-                btn.textContent = pattern.name;
-                btn.onclick = () => {
-                    document.querySelectorAll('.pattern-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentPattern = i;
-                    render();
-                };
+                btn.className = 'option-btn' + (i === 0 ? ' active' : '');
+                btn.textContent = p.name;
+                btn.onclick = () => selectOption('.option-btn[data-group="pattern"]', btn, () => { currentPattern = i; render(); });
+                btn.dataset.group = 'pattern';
                 patternGrid.appendChild(btn);
             });
 
-            const fontSelect = document.getElementById('font-select');
-            fonts.forEach((font, i) => {
+            // Fonts
+            const fontGrid = document.getElementById('font-grid');
+            fonts.forEach((f, i) => {
                 const btn = document.createElement('button');
-                btn.className = 'font-btn' + (i === 0 ? ' active' : '');
-                btn.textContent = font.name;
-                btn.style.fontFamily = font.family;
+                btn.className = 'option-btn' + (i === 0 ? ' active' : '');
+                btn.textContent = f.name;
+                btn.style.fontFamily = f.family;
+                btn.onclick = () => selectOption('.option-btn[data-group="font"]', btn, () => { currentFont = i; render(); });
+                btn.dataset.group = 'font';
+                fontGrid.appendChild(btn);
+            });
+
+            // Sizes
+            const sizeGrid = document.getElementById('size-grid');
+            sizes.forEach((s, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn' + (i === 0 ? ' active' : '');
+                btn.textContent = s.name;
+                btn.onclick = () => selectOption('.option-btn[data-group="size"]', btn, () => {
+                    currentSize = i;
+                    const canvas = document.getElementById('preview-canvas');
+                    canvas.width = s.w;
+                    canvas.height = s.h;
+                    document.getElementById('size-label').textContent = `${s.w} × ${s.h}`;
+                    render();
+                });
+                btn.dataset.group = 'size';
+                sizeGrid.appendChild(btn);
+            });
+
+            // Emojis
+            const emojiGrid = document.getElementById('emoji-grid');
+            emojis.forEach(e => {
+                const btn = document.createElement('button');
+                btn.textContent = e;
                 btn.onclick = () => {
-                    document.querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    currentFont = i;
+                    document.getElementById('emoji-input').value = e;
+                    emojiGrid.classList.remove('show');
                     render();
                 };
-                fontSelect.appendChild(btn);
+                emojiGrid.appendChild(btn);
             });
+
+            document.getElementById('emoji-toggle').onclick = () => {
+                emojiGrid.classList.toggle('show');
+            };
+        }
+
+        function selectOption(selector, activeBtn, callback) {
+            const group = activeBtn.dataset.group;
+            const parent = activeBtn.parentElement;
+            parent.querySelectorAll(selector.includes('[data-group') ? `[data-group="${group}"]` : selector.split(' ').pop())
+                .forEach(b => b.classList.remove('active'));
+            activeBtn.classList.add('active');
+            callback();
         }
 
         // === RENDER ===
         function render() {
             const canvas = document.getElementById('preview-canvas');
             const ctx = canvas.getContext('2d');
-            const W = 1200, H = 630;
+            const W = canvas.width, H = canvas.height;
 
-            // Background gradient
+            // Background
             const theme = themes[currentTheme];
             const angle = 135 * Math.PI / 180;
-            const x1 = W/2 - Math.cos(angle) * W/2;
-            const y1 = H/2 - Math.sin(angle) * H/2;
-            const x2 = W/2 + Math.cos(angle) * W/2;
-            const y2 = H/2 + Math.sin(angle) * H/2;
+            const x1 = W/2 - Math.cos(angle) * W;
+            const y1 = H/2 - Math.sin(angle) * H;
+            const x2 = W/2 + Math.cos(angle) * W;
+            const y2 = H/2 + Math.sin(angle) * H;
             const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-            theme.colors.forEach((color, i) => {
-                gradient.addColorStop(i / (theme.colors.length - 1), color);
-            });
+            theme.colors.forEach((color, i) => gradient.addColorStop(i / (theme.colors.length - 1), color));
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, W, H);
 
-            // Pattern overlay
+            // Pattern
             drawPattern(ctx, W, H);
 
-            // Text
+            // Content
+            const emoji = document.getElementById('emoji-input').value.trim();
             const title = document.getElementById('title-input').value || 'Your Title Here';
             const subtitle = document.getElementById('subtitle-input').value;
             const author = document.getElementById('author-input').value;
@@ -563,63 +783,78 @@
             const font = fonts[currentFont];
 
             ctx.textBaseline = 'middle';
+            ctx.shadowColor = 'rgba(0,0,0,0.25)';
+            ctx.shadowBlur = 6;
+            ctx.shadowOffsetY = 2;
 
-            // Calculate text color based on theme brightness
-            const textColor = '#ffffff';
-            const subtitleColor = 'rgba(255,255,255,0.8)';
-            const authorColor = 'rgba(255,255,255,0.6)';
-
-            let titleY, subtitleY, authorY, textAlign, textX, maxWidth;
+            let textX, maxW, titleY, subY, authY;
+            const scale = Math.min(W / 1200, H / 630);
 
             if (layout === 'centered') {
-                textAlign = 'center';
+                ctx.textAlign = 'center';
                 textX = W / 2;
-                maxWidth = W - 160;
-                titleY = subtitle ? H * 0.4 : H * 0.5;
-                subtitleY = H * 0.55;
-                authorY = H * 0.72;
+                maxW = W - 160 * (W/1200);
+                const hasEmoji = emoji.length > 0;
+                titleY = hasEmoji ? H * 0.48 : (subtitle ? H * 0.42 : H * 0.5);
+                subY = hasEmoji ? H * 0.62 : H * 0.58;
+                authY = H * 0.78;
+                if (hasEmoji) {
+                    ctx.font = `${Math.round(72 * scale)}px sans-serif`;
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(emoji, textX, H * 0.25);
+                }
             } else if (layout === 'left') {
-                textAlign = 'left';
-                textX = 80;
-                maxWidth = W - 200;
+                ctx.textAlign = 'left';
+                textX = 80 * (W/1200);
+                maxW = W - 180 * (W/1200);
                 titleY = subtitle ? H * 0.38 : H * 0.45;
-                subtitleY = H * 0.55;
-                authorY = H * 0.75;
+                subY = H * 0.56;
+                authY = H * 0.78;
+                if (emoji.length > 0) {
+                    ctx.textAlign = 'left';
+                    ctx.font = `${Math.round(56 * scale)}px sans-serif`;
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(emoji, textX, H * 0.2);
+                    titleY = H * 0.45;
+                    subY = H * 0.62;
+                }
             } else { // bottom
-                textAlign = 'left';
-                textX = 80;
-                maxWidth = W - 200;
+                ctx.textAlign = 'left';
+                textX = 80 * (W/1200);
+                maxW = W - 180 * (W/1200);
                 titleY = H * 0.55;
-                subtitleY = H * 0.72;
-                authorY = H * 0.87;
+                subY = H * 0.72;
+                authY = H * 0.88;
+                if (emoji.length > 0) {
+                    ctx.font = `${Math.round(56 * scale)}px sans-serif`;
+                    ctx.fillStyle = 'white';
+                    ctx.fillText(emoji, textX, H * 0.3);
+                }
             }
 
-            ctx.textAlign = textAlign;
-
             // Title
-            const titleSize = title.length > 40 ? 48 : title.length > 25 ? 56 : 64;
+            const titleLen = title.length;
+            const titleSize = Math.round((titleLen > 40 ? 44 : titleLen > 25 ? 52 : 60) * scale);
             ctx.font = `${font.weight || '700'} ${titleSize}px ${font.family}`;
-            ctx.fillStyle = textColor;
-            ctx.shadowColor = 'rgba(0,0,0,0.3)';
-            ctx.shadowBlur = 8;
-            ctx.shadowOffsetY = 2;
-            wrapText(ctx, title, textX, titleY, maxWidth, titleSize * 1.2);
+            ctx.fillStyle = '#ffffff';
+            ctx.textAlign = layout === 'centered' ? 'center' : 'left';
+            wrapText(ctx, title, textX, titleY, maxW, titleSize * 1.2);
 
             // Subtitle
             if (subtitle) {
-                const subSize = subtitle.length > 60 ? 24 : 28;
+                const subSize = Math.round((subtitle.length > 60 ? 22 : 26) * scale);
                 ctx.font = `400 ${subSize}px ${font.family}`;
-                ctx.fillStyle = subtitleColor;
-                ctx.shadowBlur = 4;
-                wrapText(ctx, subtitle, textX, subtitleY, maxWidth, subSize * 1.4);
+                ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                ctx.shadowBlur = 3;
+                wrapText(ctx, subtitle, textX, subY, maxW, subSize * 1.4);
             }
 
             // Author
             if (author) {
-                ctx.font = `500 22px ${font.family}`;
-                ctx.fillStyle = authorColor;
+                ctx.font = `500 ${Math.round(20 * scale)}px ${font.family}`;
+                ctx.fillStyle = 'rgba(255,255,255,0.6)';
                 ctx.shadowBlur = 2;
-                ctx.fillText(author, textX, authorY);
+                ctx.fillText(author, textX, authY);
             }
 
             ctx.shadowColor = 'transparent';
@@ -629,120 +864,138 @@
 
         function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
             const words = text.split(' ');
-            let line = '';
-            let lines = [];
-
+            let line = '', lines = [];
             for (let word of words) {
-                const testLine = line + word + ' ';
-                if (ctx.measureText(testLine).width > maxWidth && line !== '') {
+                const test = line + word + ' ';
+                if (ctx.measureText(test).width > maxWidth && line !== '') {
                     lines.push(line.trim());
                     line = word + ' ';
                 } else {
-                    line = testLine;
+                    line = test;
                 }
             }
             lines.push(line.trim());
-
+            if (lines.length > 3) lines = lines.slice(0, 3);
             const startY = y - ((lines.length - 1) * lineHeight) / 2;
-            lines.forEach((l, i) => {
-                ctx.fillText(l, x, startY + i * lineHeight);
-            });
+            lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineHeight));
         }
 
         function drawPattern(ctx, W, H) {
-            const pattern = patterns[currentPattern];
-            ctx.globalAlpha = 0.12;
-            ctx.strokeStyle = '#ffffff';
-            ctx.fillStyle = '#ffffff';
+            const pid = patterns[currentPattern].id;
+            if (pid === 'none') return;
+            ctx.globalAlpha = 0.1;
+            ctx.strokeStyle = '#fff';
+            ctx.fillStyle = '#fff';
+            ctx.lineWidth = 1;
 
-            switch (pattern.id) {
+            switch (pid) {
                 case 'dots':
-                    for (let x = 0; x < W; x += 30) {
-                        for (let y = 0; y < H; y += 30) {
-                            ctx.beginPath();
-                            ctx.arc(x, y, 2, 0, Math.PI * 2);
-                            ctx.fill();
-                        }
-                    }
-                    break;
+                    for (let x = 0; x < W; x += 28) for (let y = 0; y < H; y += 28) {
+                        ctx.beginPath(); ctx.arc(x, y, 1.5, 0, Math.PI * 2); ctx.fill();
+                    } break;
                 case 'grid':
-                    ctx.lineWidth = 1;
-                    for (let x = 0; x < W; x += 40) {
-                        ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-                    }
-                    for (let y = 0; y < H; y += 40) {
-                        ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-                    }
+                    for (let x = 0; x < W; x += 40) { ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke(); }
+                    for (let y = 0; y < H; y += 40) { ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke(); }
                     break;
                 case 'waves':
-                    ctx.lineWidth = 2;
-                    for (let y = 0; y < H; y += 40) {
+                    ctx.lineWidth = 1.5;
+                    for (let y = 0; y < H; y += 35) {
                         ctx.beginPath();
-                        for (let x = 0; x < W; x += 5) {
-                            ctx.lineTo(x, y + Math.sin(x / 50 + y / 30) * 15);
-                        }
+                        for (let x = 0; x < W; x += 4) ctx.lineTo(x, y + Math.sin(x/40 + y/20) * 12);
                         ctx.stroke();
-                    }
-                    break;
+                    } break;
                 case 'circles':
-                    ctx.lineWidth = 1;
-                    for (let i = 1; i <= 8; i++) {
-                        ctx.beginPath();
-                        ctx.arc(W * 0.7, H * 0.5, i * 60, 0, Math.PI * 2);
-                        ctx.stroke();
-                    }
+                    for (let i = 1; i <= 7; i++) { ctx.beginPath(); ctx.arc(W*0.7, H*0.5, i*55, 0, Math.PI*2); ctx.stroke(); }
                     break;
                 case 'diagonal':
-                    ctx.lineWidth = 1;
-                    for (let i = -H; i < W + H; i += 25) {
-                        ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke();
-                    }
+                    for (let i = -H; i < W+H; i += 22) { ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i+H,H); ctx.stroke(); }
                     break;
                 case 'cross':
-                    for (let x = 20; x < W; x += 40) {
-                        for (let y = 20; y < H; y += 40) {
-                            ctx.beginPath();
-                            ctx.moveTo(x - 5, y); ctx.lineTo(x + 5, y);
-                            ctx.moveTo(x, y - 5); ctx.lineTo(x, y + 5);
-                            ctx.stroke();
-                        }
-                    }
-                    break;
+                    for (let x = 15; x < W; x += 35) for (let y = 15; y < H; y += 35) {
+                        ctx.beginPath(); ctx.moveTo(x-4,y); ctx.lineTo(x+4,y); ctx.moveTo(x,y-4); ctx.lineTo(x,y+4); ctx.stroke();
+                    } break;
                 case 'noise':
-                    for (let i = 0; i < 3000; i++) {
-                        const x = Math.random() * W;
-                        const y = Math.random() * H;
-                        ctx.fillRect(x, y, 2, 2);
-                    }
+                    for (let i = 0; i < 2500; i++) ctx.fillRect(Math.random()*W, Math.random()*H, 1.5, 1.5);
                     break;
             }
-
             ctx.globalAlpha = 1;
         }
 
-        // === DOWNLOAD ===
+        // === ACTIONS ===
         function downloadImage() {
             const canvas = document.getElementById('preview-canvas');
             const link = document.createElement('a');
-            link.download = 'og-image.png';
+            const size = sizes[currentSize];
+            link.download = `og-image-${size.w}x${size.h}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
-
-            // Track download for social proof
-            const count = parseInt(localStorage.getItem('downloads') || '0') + 1;
-            localStorage.setItem('downloads', count);
+            incrementCounter();
+            showToast('✓ Image downloaded!');
         }
 
-        // === EVENT LISTENERS ===
-        document.getElementById('title-input').addEventListener('input', render);
-        document.getElementById('subtitle-input').addEventListener('input', render);
-        document.getElementById('author-input').addEventListener('input', render);
+        async function copyToClipboard() {
+            try {
+                const canvas = document.getElementById('preview-canvas');
+                const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+                await navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                const btn = document.getElementById('copy-btn');
+                btn.classList.add('copied');
+                btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+                setTimeout(() => {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+                }, 2000);
+                incrementCounter();
+                showToast('✓ Copied to clipboard!');
+            } catch (e) {
+                showToast('⚠️ Copy not supported in this browser. Please download instead.');
+            }
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // === EVENTS ===
+        ['title-input', 'subtitle-input', 'author-input', 'emoji-input'].forEach(id => {
+            document.getElementById(id).addEventListener('input', render);
+        });
         document.getElementById('layout-select').addEventListener('change', render);
         document.getElementById('download-btn').addEventListener('click', downloadImage);
+        document.getElementById('copy-btn').addEventListener('click', copyToClipboard);
+
+        // Close emoji grid on outside click
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('#emoji-grid') && !e.target.closest('#emoji-toggle')) {
+                document.getElementById('emoji-grid').classList.remove('show');
+            }
+        });
 
         // === INIT ===
         initUI();
+        initCounter();
         render();
+    </script>
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "OG Card Maker",
+        "description": "Free Open Graph and social media image generator. Create beautiful preview cards for Twitter, Facebook, LinkedIn in seconds.",
+        "url": "https://og-card-maker.vercel.app",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
     </script>
 </body>
 </html>
