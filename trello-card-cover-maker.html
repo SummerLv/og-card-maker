@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trello Card Cover Maker - Free Board Image Generator | OG Card Maker</title>
+    <meta name="description" content="Free Trello card cover maker. Create board covers and card attachments for Trello. 800x200 pixels. No signup, no watermark. Perfect for project management visuals.">
+    <meta property="og:url" content="https://og-card-maker.vercel.app/trello-card-cover-maker.html">
+    <meta name="keywords" content="trello card cover, trello board cover, trello image, kanban card cover, project management image, free trello cover">
+    <link rel="canonical" href="https://og-card-maker.vercel.app/trello-card-cover-maker.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📋</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #0079bf; --primary-dark: #00609c; --bg: #0f172a; --surface: #1e293b; --surface-2: #334155; --text: #f8fafc; --text-muted: #94a3b8; --border: #475569; --success: #10b981; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumb { margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #61bd4f); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
+        .controls { background: var(--surface); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); }
+        .control-group { margin-bottom: 1.25rem; }
+        .control-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem; }
+        input[type="text"], textarea { width: 100%; padding: 0.7rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; }
+        input:focus { outline: none; border-color: var(--primary); }
+        .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .theme-btn { aspect-ratio: 4/1; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active { border-color: var(--primary); }
+        .btn-primary { width: 100%; padding: 0.8rem 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .preview-wrapper { background: var(--surface); border-radius: 16px; padding: 1.25rem; border: 1px solid var(--border); }
+        .preview-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; display: flex; justify-content: space-between; }
+        #preview-canvas { width: 100%; border-radius: 8px; }
+        .size-info { text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 0.6rem; }
+        .info-section { background: var(--surface); border-radius: 16px; padding: 2rem; margin-top: 2.5rem; border: 1px solid var(--border); }
+        .info-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .info-section h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        .info-section p, .info-section li { color: var(--text-muted); font-size: 0.95rem; }
+        .info-section ul { padding-left: 1.5rem; }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--primary); text-decoration: none; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; transition: transform 0.3s; z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb"><a href="/">🏠 OG Card Maker</a> / Trello Card Cover Maker</nav>
+        <header class="hero">
+            <h1>📋 Trello Card Cover Maker</h1>
+            <p>Create visual card covers for your Trello boards. Make your Kanban boards more organized and visually appealing with custom card covers.</p>
+        </header>
+        <div class="app-layout">
+            <div class="controls">
+                <div class="control-group"><label>Card Title</label><input type="text" id="title-input" value="Task Title" placeholder="Task or card name..." maxlength="40"></div>
+                <div class="control-group"><label>Status/Label</label><textarea id="subtitle-input" placeholder="Status or category..." rows="2">In Progress</textarea></div>
+                <div class="control-group"><label>Emoji</label><input type="text" id="emoji-input" placeholder="📋" maxlength="4"></div>
+                <div class="control-group"><label>Theme</label><div class="theme-grid" id="theme-grid"></div></div>
+                <button class="btn-primary" id="download-btn">Download PNG</button>
+            </div>
+            <div class="preview-wrapper">
+                <div class="preview-label"><span>Live Preview</span><span>800 × 200</span></div>
+                <canvas id="preview-canvas" width="800" height="200"></canvas>
+                <p class="size-info">Trello card cover size</p>
+            </div>
+        </div>
+        <section class="info-section">
+            <h2>Create Trello Card Covers That Organize Your Workflow</h2>
+            <p>Visual card covers in Trello help you quickly identify task types, priorities, and progress. A good card cover system makes your Kanban board more efficient.</p>
+            <h3>Trello Card Cover Sizes</h3>
+            <ul>
+                <li><strong>Card attachments:</strong> Any size (displayed as thumbnails)</li>
+                <li><strong>Board backgrounds:</strong> 1920×1080 recommended</li>
+                <li><strong>Recommended cover:</strong> 800×200 for readability</li>
+            </ul>
+            <h3>Best Practices for Trello Card Covers</h3>
+            <ul>
+                <li>Use color coding for task types</li>
+                <li>Keep titles short and readable</li>
+                <li>Use emojis for quick identification</li>
+                <li>Consistent style across the board</li>
+            </ul>
+            <h3>Why Use This Free Trello Cover Maker?</h3>
+            <ul>
+                <li>✅ Perfect for card attachments</li>
+                <li>✅ No signup required</li>
+                <li>✅ No watermarks</li>
+                <li>✅ Kanban-friendly themes</li>
+                <li>✅ 100% free</li>
+            </ul>
+        </section>
+        <footer><p>Made with ❤️ • <a href="/">OG Card Maker</a> • Free forever</p></footer>
+    </div>
+    <div class="toast" id="toast">✓ Card Cover downloaded!</div>
+    <script>
+        const themes = [
+            { name: 'Trello Blue', colors: ['#0079bf', '#00609c'] },
+            { name: 'Green', colors: ['#61bd4f', '#519839'] },
+            { name: 'Orange', colors: ['#ff9f1a', '#e69815'] },
+            { name: 'Red', colors: ['#eb5a46', '#cf513d'] },
+            { name: 'Purple', colors: ['#c377e0', '#a368b9'] },
+            { name: 'Pink', colors: ['#ff78c4', '#e867a9'] },
+            { name: 'Sky', colors: ['#00c2e0', '#00a5bf'] },
+            { name: 'Lime', colors: ['#51e898', '#4ed987'] },
+            { name: 'Yellow', colors: ['#f2d600', '#d9b300'] },
+            { name: 'Black', colors: ['#344563', '#172b4d'] },
+        ];
+        let currentTheme = 0;
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        function initUI() {
+            const grid = document.getElementById('theme-grid');
+            themes.forEach((theme, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
+                btn.onclick = () => { document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTheme = i; render(); };
+                grid.appendChild(btn);
+            });
+        }
+        function render() {
+            const W = canvas.width, H = canvas.height;
+            const theme = themes[currentTheme];
+            const gradient = ctx.createLinearGradient(0, 0, W, H);
+            gradient.addColorStop(0, theme.colors[0]);
+            gradient.addColorStop(1, theme.colors[1]);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+            const title = document.getElementById('title-input').value || 'Task';
+            const status = document.getElementById('subtitle-input').value;
+            const emoji = document.getElementById('emoji-input').value.trim();
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 4;
+            if (emoji) { ctx.font = '60px sans-serif'; ctx.fillStyle = 'white'; ctx.fillText(emoji, W*0.15, H*0.5); }
+            const titleSize = title.length > 25 ? 36 : title.length > 15 ? 44 : 52;
+            ctx.font = `700 ${titleSize}px -apple-system, sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(title, emoji ? W*0.55 : W/2, status ? H*0.35 : H*0.4);
+            if (status) { ctx.font = '600 18px -apple-system, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.fillText(status, emoji ? W*0.55 : W/2, H*0.65); }
+        }
+        function download() { const link = document.createElement('a'); link.download = 'trello-card-cover.png'; link.href = canvas.toDataURL('image/png'); link.click(); showToast('✓ Card Cover downloaded!'); }
+        function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+        ['title-input', 'subtitle-input', 'emoji-input'].forEach(id => document.getElementById(id).addEventListener('input', render));
+        document.getElementById('download-btn').addEventListener('click', download);
+        initUI(); render();
+    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Trello Card Cover Maker","url":"https://og-card-maker.vercel.app/trello-card-cover-maker.html","offers":{"@type":"Offer","price":"0"}}</script>
+</body>
+</html>
