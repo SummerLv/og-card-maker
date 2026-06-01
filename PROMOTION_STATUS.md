@@ -1,87 +1,85 @@
-# OG Card Maker - 推广内容准备
+# OG Card Maker - 推广执行状态
 
-## 已完成部署的页面
+## 已完成迭代 (10轮)
 
-| 页面 | URL | 关键词 |
-|------|-----|--------|
-| 主页 | https://og-card-maker.vercel.app/ | og image generator, social media image |
-| Twitter Card Generator | https://og-card-maker.vercel.app/twitter-card-generator.html | twitter card generator |
-| YouTube Thumbnail Maker | https://og-card-maker.vercel.app/youtube-thumbnail-maker.html | youtube thumbnail maker |
+| 轮次 | 页面数 | 提交数 | 状态 |
+|------|--------|--------|------|
+| 1-10 | 11个页面 | 11次提交 | ✅ |
 
----
+## 当前网站结构 (11个页面)
 
-## Reddit 推广内容
-
-### r/InternetIsBeautiful (已准备)
-
-**Title:** A free browser tool that generates social media preview cards in seconds — no signup, no watermark, no data uploaded
-
-**Body:** (参考 PROMOTION.md 第15-38行)
-
-**最佳发布时间:** 周二-周四 7:00-9:00 AM ET
-
-### r/SideProject (已准备)
-
-**Title:** I built a free OG image generator in one evening — $0 to run, solves a 20-minute problem in 10 seconds
-
-**Body:** (参考 PROMOTION.md 第43-80行)
-
-**最佳发布时间:** 周一-周三 8:00-10:00 AM ET
-
-### r/webdev (已准备)
-
-**Title:** I replaced my Figma OG image workflow with a Canvas API tool — here's the technical approach (no backend, no dependencies)
-
-**Body:** (参考 PROMOTION.md 第87-140行)
-
-**最佳发布时间:** 周二-周四 9:00-11:00 AM ET
+| 页面 | URL | 目标关键词 | SEO状态 |
+|------|-----|-----------|---------|
+| 主页 | / | og image generator | ✅ 完整 |
+| Twitter Card Generator | /twitter-card-generator.html | twitter card generator | ✅ 完整 |
+| YouTube Thumbnail Maker | /youtube-thumbnail-maker.html | youtube thumbnail maker | ✅ 完整 |
+| Blog Banner Maker | /blog-banner-maker.html | blog banner maker | ✅ 完整 |
+| LinkedIn Banner Maker | /linkedin-banner-maker.html | linkedin banner maker | ✅ 完整 |
+| GitHub Social Card Maker | /github-social-card-maker.html | github social card | ✅ 完整 |
+| Discord Embed Maker | /discord-embed-maker.html | discord embed image | ✅ 完整 |
+| Facebook OG Image Maker | /facebook-og-image-maker.html | facebook share image | ✅ 完整 |
+| Instagram Post Maker | /instagram-post-maker.html | instagram post template | ✅ 完整 |
+| Product Hunt Launch Maker | /product-hunt-launch-image-maker.html | product hunt launch image | ✅ 完整 |
+| Slack Link Preview Maker | /slack-link-preview-maker.html | slack unfurl image | ✅ 完整 |
 
 ---
 
-## Twitter/X Thread (已准备)
+## 推广计划执行状态
 
-7条推文线程已准备完成，参考 PROMOTION.md 第147-259行
+### Reddit 推广 (待执行)
 
-**最佳发布时间:** 周二-周三 8:00-10:00 AM ET
+#### r/InternetIsBeautiful
+- [ ] 发布时间: 周二-周四 7:00-9:00 AM ET
+- [ ] 内容已准备 (参考PROMOTION.md)
 
----
+#### r/SideProject
+- [ ] 发布时间: 周一-周三 8:00-10:00 AM ET
+- [ ] 内容已准备
 
-## Hacker News Show HN (已准备)
+#### r/webdev
+- [ ] 发布时间: 周二-周四 9:00-11:00 AM ET
+- [ ] 内容已准备
 
-**Title:** Show HN: OG Card Maker – Free browser-based social media preview image generator
+### Twitter/X 推广 (待执行)
+- [ ] 7条推文线程已准备
+- [ ] 最佳发布时间: 周二-周三 8:00-10:00 AM ET
 
-**First comment:** 参考 PROMOTION.md 第264-305行
-
-**最佳发布时间:** 周二-周四 8:30-10:00 AM ET
-
----
-
-## 执行状态
-
-- [ ] Reddit r/InternetIsBeautiful 发布
-- [ ] Reddit r/SideProject 发布
-- [ ] Reddit r/webdev 发布
-- [ ] Twitter/X 线程发布
-- [ ] Hacker News 发布
-- [ ] Product Hunt 准备
+### Hacker News (待执行)
+- [ ] Show HN 内容已准备
+- [ ] 最佳发布时间: 周二-周四 8:30-10:00 AM ET
 
 ---
 
-## SEO 优化记录
+## 技术SEO完成清单
 
-### 第一轮迭代 (2026-06-02)
-- 优化title和meta描述
-- 添加使用场景板块
-- 增强Schema标记
+- [x] Title优化（包含Maker/Generator关键词）
+- [x] Meta Description（150-160字符）
+- [x] OG Tags完整配置
+- [x] Twitter Cards配置
+- [x] Canonical URLs
+- [x] FAQPage Schema
+- [x] WebApplication Schema
+- [x] BreadcrumbList Schema
+- [x] sitemap.xml（11个页面）
+- [x] robots.txt
+- [x] 内链结构完整
+- [ ] Google Search Console提交
+- [ ] Vercel新页面部署修复
 
-### 第二轮迭代 (2026-06-02)
-- 创建 Twitter Card Generator 页面
-- 创建 YouTube Thumbnail Maker 页面
-- 更新sitemap
-- 添加内链结构
+---
 
-### 下一步优化
-- [ ] 创建 Blog Header Generator 页面
-- [ ] 创建 LinkedIn Banner Maker 页面
-- [ ] 添加更多长尾关键词页面
-- [ ] 提交到 Google Search Console
+## 下一步行动
+
+1. **解决Vercel部署问题**
+   - 新页面返回404
+   - 可能需要检查Vercel项目设置
+
+2. **执行推广**
+   - Reddit发布
+   - Twitter/X线程
+   - Hacker News
+
+3. **监控指标**
+   - Google Search Console收录
+   - 自然搜索流量
+   - Buy Me a Coffee收入
