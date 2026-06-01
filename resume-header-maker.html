@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Header Maker - Free CV Banner Generator | OG Card Maker</title>
+    <meta name="description" content="Free Resume Header maker. Create professional CV banners and LinkedIn-style headers. No signup, no watermark. Make your resume stand out.">
+    <meta property="og:url" content="https://og-card-maker.vercel.app/resume-header-maker.html">
+    <meta name="keywords" content="resume header, cv banner, resume banner, cv header image, professional resume image, free resume header maker">
+    <link rel="canonical" href="https://og-card-maker.vercel.app/resume-header-maker.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📄</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #2563eb; --primary-dark: #1d4ed8; --bg: #0f172a; --surface: #1e293b; --surface-2: #334155; --text: #f8fafc; --text-muted: #94a3b8; --border: #475569; --success: #10b981; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumb { margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #3b82f6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
+        .controls { background: var(--surface); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); }
+        .control-group { margin-bottom: 1.25rem; }
+        .control-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        input[type="text"], textarea, select { width: 100%; padding: 0.7rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; }
+        input:focus { outline: none; border-color: var(--primary); }
+        .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .theme-btn { aspect-ratio: 3/1; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active { border-color: var(--primary); }
+        .btn-primary { width: 100%; padding: 0.8rem 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .preview-wrapper { background: var(--surface); border-radius: 16px; padding: 1.25rem; border: 1px solid var(--border); }
+        .preview-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; display: flex; justify-content: space-between; }
+        #preview-canvas { width: 100%; border-radius: 8px; }
+        .size-info { text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 0.6rem; }
+        .info-section { background: var(--surface); border-radius: 16px; padding: 2rem; margin-top: 2.5rem; border: 1px solid var(--border); }
+        .info-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .info-section h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        .info-section p, .info-section li { color: var(--text-muted); font-size: 0.95rem; }
+        .info-section ul { padding-left: 1.5rem; }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--primary); text-decoration: none; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; transition: transform 0.3s; z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb"><a href="/">🏠 OG Card Maker</a> / Resume Header Maker</nav>
+        <header class="hero">
+            <h1>📄 Resume Header Maker</h1>
+            <p>Create professional headers for your resume or CV. Make your application stand out with a custom banner that showcases your name and title.</p>
+        </header>
+        <div class="app-layout">
+            <div class="controls">
+                <div class="control-group"><label>Your Name</label><input type="text" id="title-input" value="Your Name" placeholder="Full name..." maxlength="40"></div>
+                <div class="control-group"><label>Job Title</label><textarea id="subtitle-input" placeholder="Your professional title..." rows="2">Software Engineer</textarea></div>
+                <div class="control-group"><label>Contact Info</label><input type="text" id="author-input" placeholder="email@example.com | linkedin.com/in/you"></div>
+                <div class="control-group"><label>Theme</label><div class="theme-grid" id="theme-grid"></div></div>
+                <div class="btn-group"><button class="btn-primary" id="download-btn">Download PNG</button></div>
+            </div>
+            <div class="preview-wrapper">
+                <div class="preview-label"><span>Live Preview</span><span>800 × 200</span></div>
+                <canvas id="preview-canvas" width="800" height="200"></canvas>
+                <p class="size-info">Professional header size • PDF-ready</p>
+            </div>
+        </div>
+        <section class="info-section">
+            <h2>Create Resume Headers That Get You Hired</h2>
+            <p>A professional resume header is the first thing recruiters see. A well-designed header makes your resume look polished and memorable.</p>
+            <h3>What to Include in Your Resume Header</h3>
+            <ul>
+                <li>Your full name (prominently displayed)</li>
+                <li>Professional title or target role</li>
+                <li>Email address</li>
+                <li>Phone number (optional)</li>
+                <li>LinkedIn or portfolio URL</li>
+                <li>Location (city, state)</li>
+            </ul>
+            <h3>Resume Header Best Practices</h3>
+            <ul>
+                <li>Keep it clean and readable</li>
+                <li>Use professional colors (blue, gray, navy)</li>
+                <li>Make your name the largest element</li>
+                <li>Include only essential contact info</li>
+                <li>Match your LinkedIn profile header</li>
+            </ul>
+            <h3>Why Use This Free Resume Header Maker?</h3>
+            <ul>
+                <li>✅ Professional designs</li>
+                <li>✅ No signup required</li>
+                <li>✅ No watermarks</li>
+                <li>✅ ATS-friendly layouts</li>
+                <li>✅ 100% free</li>
+            </ul>
+        </section>
+        <footer><p>Made with ❤️ • <a href="/">OG Card Maker</a> • Free forever</p></footer>
+    </div>
+    <div class="toast" id="toast">✓ Resume Header downloaded!</div>
+    <script>
+        const themes = [
+            { name: 'Professional Blue', colors: ['#2563eb', '#1d4ed8'] },
+            { name: 'Navy', colors: ['#1e3a5f', '#2c5282'] },
+            { name: 'Slate', colors: ['#475569', '#64748b'] },
+            { name: 'Teal', colors: ['#0d9488', '#14b8a6'] },
+            { name: 'Forest', colors: ['#166534', '#22c55e'] },
+            { name: 'Amber', colors: ['#b45309', '#f59e0b'] },
+            { name: 'Purple', colors: ['#7c3aed', '#a78bfa'] },
+            { name: 'Rose', colors: ['#be123c', '#fb7185'] },
+            { name: 'Indigo', colors: ['#4338ca', '#6366f1'] },
+            { name: 'Minimal', colors: ['#374151', '#6b7280'] },
+        ];
+        let currentTheme = 0;
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        function initUI() {
+            const grid = document.getElementById('theme-grid');
+            themes.forEach((theme, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
+                btn.onclick = () => { document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTheme = i; render(); };
+                grid.appendChild(btn);
+            });
+        }
+        function render() {
+            const W = canvas.width, H = canvas.height;
+            const theme = themes[currentTheme];
+            const gradient = ctx.createLinearGradient(0, 0, W, H);
+            gradient.addColorStop(0, theme.colors[0]);
+            gradient.addColorStop(1, theme.colors[1]);
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+            const name = document.getElementById('title-input').value || 'Your Name';
+            const title = document.getElementById('subtitle-input').value;
+            const contact = document.getElementById('author-input').value;
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = 4;
+            const nameSize = name.length > 25 ? 36 : name.length > 15 ? 44 : 52;
+            ctx.font = `700 ${nameSize}px -apple-system, sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(name, W/2, title ? H*0.35 : H*0.4);
+            if (title) { ctx.font = '400 20px -apple-system, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.fillText(title, W/2, H*0.6); }
+            if (contact) { ctx.font = '400 14px -apple-system, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.fillText(contact, W/2, H*0.85); }
+        }
+        function download() { const link = document.createElement('a'); link.download = 'resume-header.png'; link.href = canvas.toDataURL('image/png'); link.click(); showToast('✓ Resume Header downloaded!'); }
+        function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+        ['title-input', 'subtitle-input', 'author-input'].forEach(id => document.getElementById(id).addEventListener('input', render));
+        document.getElementById('download-btn').addEventListener('click', download);
+        initUI(); render();
+    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Resume Header Maker","url":"https://og-card-maker.vercel.app/resume-header-maker.html","offers":{"@type":"Offer","price":"0"}}</script>
+</body>
+</html>
