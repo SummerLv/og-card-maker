@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Thumbnail Maker - Free 1080x1080 Creator | OG Card Maker</title>
+    <meta name="description" content="Free YouTube Thumbnail maker. Create 1080x1080 video thumbnails in seconds. No signup, no watermark. Perfect for YouTube shorts, Instagram, and square video previews.">
+    <meta property="og:title" content="YouTube Thumbnail Maker - Free 1080x1080 Creator">
+    <meta property="og:description" content="Create stunning YouTube thumbnails in seconds. Free, no signup required.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://og-card-maker.vercel.app/youtube-thumbnail-maker.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="YouTube Thumbnail Maker - Free 1080x1080 Creator">
+    <meta name="twitter:description" content="Create stunning YouTube thumbnails in seconds. Free, no signup required.">
+    <meta name="keywords" content="youtube thumbnail maker, youtube thumbnail generator, video thumbnail creator, youtube banner maker, free youtube thumbnail, yt thumbnail tool, square thumbnail generator">
+    <link rel="canonical" href="https://og-card-maker.vercel.app/youtube-thumbnail-maker.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎬</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #ff0000;
+            --primary-dark: #cc0000;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --surface-2: #334155;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #475569;
+            --accent: #22d3ee;
+            --success: #10b981;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumb { margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--primary); }
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .app-layout {
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
+        .controls {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+        }
+        .control-group { margin-bottom: 1.25rem; }
+        .control-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.4rem;
+        }
+        input[type="text"], textarea, select {
+            width: 100%;
+            padding: 0.7rem 0.9rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
+        textarea { resize: vertical; min-height: 50px; }
+        .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .theme-btn {
+            aspect-ratio: 1/1;
+            border-radius: 6px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(255,0,0,0.3); }
+        .btn-row { display: flex; gap: 0.5rem; }
+        .btn-primary {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.4rem;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(255,0,0,0.4); }
+        .preview-area { position: sticky; top: 1.5rem; }
+        .preview-wrapper {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+        }
+        .preview-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.6rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        #preview-canvas {
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        .size-info {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            margin-top: 0.6rem;
+        }
+        .info-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-top: 2.5rem;
+            border: 1px solid var(--border);
+        }
+        .info-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        .info-section h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        .info-section p, .info-section li { color: var(--text-muted); font-size: 0.95rem; }
+        .info-section ul { padding-left: 1.5rem; }
+        .info-section li { margin-bottom: 0.5rem; }
+        code { background: var(--surface-2); padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.85rem; }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1.5rem 0;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            border-top: 1px solid var(--border);
+        }
+        footer a { color: var(--primary); text-decoration: none; }
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb">
+            <a href="/">🏠 OG Card Maker</a> / YouTube Thumbnail Maker
+        </nav>
+
+        <header class="hero">
+            <h1>🎬 YouTube Thumbnail Maker</h1>
+            <p>Create eye-catching 1080×1080 YouTube thumbnails in seconds. Free, no signup, no watermark. Perfect for YouTube Shorts, Instagram Reels, and square video previews.</p>
+        </header>
+
+        <div class="app-layout">
+            <div class="controls">
+                <div class="control-group">
+                    <label>Emoji Icon</label>
+                    <input type="text" id="emoji-input" placeholder="🎬" maxlength="4">
+                </div>
+
+                <div class="control-group">
+                    <label>Video Title</label>
+                    <input type="text" id="title-input" value="Your Video Title" placeholder="Enter your video title..." maxlength="60">
+                </div>
+
+                <div class="control-group">
+                    <label>Channel Name</label>
+                    <input type="text" id="subtitle-input" placeholder="@YourChannel">
+                </div>
+
+                <div class="control-group">
+                    <label>Gradient Theme</label>
+                    <div class="theme-grid" id="theme-grid"></div>
+                </div>
+
+                <div class="control-group">
+                    <label>Pattern Overlay</label>
+                    <select id="pattern-select">
+                        <option value="none">None</option>
+                        <option value="dots">Dots</option>
+                        <option value="grid">Grid</option>
+                        <option value="waves">Waves</option>
+                        <option value="circles">Circles</option>
+                        <option value="diagonal">Diagonal Lines</option>
+                    </select>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn-primary" id="download-btn">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                        Download PNG
+                    </button>
+                </div>
+            </div>
+
+            <div class="preview-area">
+                <div class="preview-wrapper">
+                    <div class="preview-label">
+                        Live Preview
+                        <span>1080 × 1080</span>
+                    </div>
+                    <canvas id="preview-canvas" width="1080" height="1080"></canvas>
+                    <p class="size-info">Square format • Works on YouTube Shorts, Instagram, TikTok</p>
+                </div>
+            </div>
+        </div>
+
+        <section class="info-section">
+            <h2>Create YouTube Thumbnails That Get Clicks</h2>
+            <p>A great thumbnail is the difference between a video that gets views and one that gets ignored. YouTube thumbnails should be bright, bold, and communicate your video's value in under a second.</p>
+
+            <h3>YouTube Thumbnail Size Requirements</h3>
+            <ul>
+                <li><strong>Standard YouTube:</strong> 1280×720 pixels (16:9 aspect ratio)</li>
+                <li><strong>YouTube Shorts / Square:</strong> 1080×1080 pixels (1:1 aspect ratio)</li>
+                <li><strong>Maximum file size:</strong> 2MB</li>
+                <li><strong>Format:</strong> JPG, PNG, or GIF (PNG recommended for quality)</li>
+            </ul>
+
+            <h3>Tips for High-CTR YouTube Thumbnails</h3>
+            <ul>
+                <li>Use contrasting colors — bright yellows, reds, and blues pop against dark backgrounds</li>
+                <li>Include faces with expressive emotions (surprise, excitement)</li>
+                <li>Keep text under 4-5 words — people can't read while scrolling</li>
+                <li>Add an arrow or circle to draw attention to key elements</li>
+                <li>Be consistent with your branding across all thumbnails</li>
+            </ul>
+
+            <h3>Why Use This Free Thumbnail Maker?</h3>
+            <ul>
+                <li>✅ Optimized for YouTube's exact specifications</li>
+                <li>✅ No signup required — create thumbnails instantly</li>
+                <li>✅ No watermarks on your final image</li>
+                <li>✅ 16+ gradient themes that grab attention</li>
+                <li>✅ 100% free — no hidden costs or subscriptions</li>
+            </ul>
+
+            <h3>Related Tools</h3>
+            <ul>
+                <li><a href="/" style="color: var(--primary);">OG Card Maker</a> — for blog post social cards</li>
+                <li><a href="/twitter-card-generator.html" style="color: var(--primary);">Twitter Card Generator</a> — for Twitter/X previews</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>Made with ❤️ • <a href="/">OG Card Maker</a> • Free forever • No data collected</p>
+        </footer>
+    </div>
+
+    <div class="toast" id="toast">✓ Thumbnail downloaded!</div>
+
+    <script>
+        const themes = [
+            { name: 'YouTube Red', colors: ['#ff0000', '#cc0000'] },
+            { name: 'Sunset', colors: ['#FA8BFF', '#2BD2FF', '#2BFF88'] },
+            { name: 'Ocean', colors: ['#0093E9', '#80D0C7'] },
+            { name: 'Fire', colors: ['#f093fb', '#f5576c'] },
+            { name: 'Forest', colors: ['#11998e', '#38ef7d'] },
+            { name: 'Midnight', colors: ['#0f0c29', '#302b63', '#24243e'] },
+            { name: 'Amber', colors: ['#f59e0b', '#d97706'] },
+            { name: 'Emerald', colors: ['#059669', '#34d399'] },
+            { name: 'Violet', colors: ['#7c3aed', '#a78bfa'] },
+            { name: 'Coral', colors: ['#ff9a9e', '#fecfef'] },
+        ];
+
+        let currentTheme = 0;
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function initUI() {
+            const grid = document.getElementById('theme-grid');
+            themes.forEach((theme, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = theme.colors.length > 2
+                    ? `linear-gradient(135deg, ${theme.colors.join(', ')})`
+                    : `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
+                btn.title = theme.name;
+                btn.onclick = () => {
+                    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentTheme = i;
+                    render();
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function render() {
+            const W = canvas.width, H = canvas.height;
+
+            const theme = themes[currentTheme];
+            const angle = 135 * Math.PI / 180;
+            const gradient = ctx.createLinearGradient(
+                W/2 - Math.cos(angle) * W, H/2 - Math.sin(angle) * H,
+                W/2 + Math.cos(angle) * W, H/2 + Math.sin(angle) * H
+            );
+            theme.colors.forEach((color, i) => gradient.addColorStop(i / (theme.colors.length - 1), color));
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+
+            drawPattern(ctx, W, H);
+
+            const emoji = document.getElementById('emoji-input').value.trim();
+            const title = document.getElementById('title-input').value || 'Your Title';
+            const channel = document.getElementById('subtitle-input').value;
+
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetY = 4;
+
+            if (emoji) {
+                ctx.font = '120px sans-serif';
+                ctx.fillStyle = 'white';
+                ctx.fillText(emoji, W/2, H * 0.28);
+            }
+
+            const titleSize = title.length > 30 ? 56 : title.length > 20 ? 64 : 72;
+            ctx.font = `800 ${titleSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            wrapText(ctx, title, W/2, channel ? H * 0.55 : H * 0.58, W - 120, titleSize * 1.15);
+
+            if (channel) {
+                ctx.font = '500 36px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
+                ctx.fillStyle = 'rgba(255,255,255,0.75)';
+                ctx.shadowBlur = 4;
+                ctx.fillText(channel, W/2, H * 0.82);
+            }
+        }
+
+        function drawPattern(ctx, W, H) {
+            const pattern = document.getElementById('pattern-select').value;
+            if (pattern === 'none') return;
+
+            ctx.globalAlpha = 0.12;
+            ctx.strokeStyle = '#fff';
+            ctx.fillStyle = '#fff';
+            ctx.lineWidth = 1.5;
+
+            switch (pattern) {
+                case 'dots':
+                    for (let x = 0; x < W; x += 32) for (let y = 0; y < H; y += 32) {
+                        ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill();
+                    } break;
+                case 'grid':
+                    for (let x = 0; x < W; x += 48) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+                    for (let y = 0; y < H; y += 48) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+                    break;
+                case 'waves':
+                    for (let y = 0; y < H; y += 40) {
+                        ctx.beginPath();
+                        for (let x = 0; x < W; x += 5) ctx.lineTo(x, y + Math.sin(x/35 + y/25) * 15);
+                        ctx.stroke();
+                    } break;
+                case 'circles':
+                    for (let i = 1; i <= 8; i++) { ctx.beginPath(); ctx.arc(W/2, H/2, i * 60, 0, Math.PI * 2); ctx.stroke(); }
+                    break;
+                case 'diagonal':
+                    for (let i = -H; i < W + H; i += 28) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + H, H); ctx.stroke(); }
+                    break;
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '', lines = [];
+            for (let word of words) {
+                const test = line + word + ' ';
+                if (ctx.measureText(test).width > maxWidth && line !== '') {
+                    lines.push(line.trim());
+                    line = word + ' ';
+                } else {
+                    line = test;
+                }
+            }
+            lines.push(line.trim());
+            if (lines.length > 3) lines = lines.slice(0, 3);
+            const startY = y - ((lines.length - 1) * lineHeight) / 2;
+            lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineHeight));
+        }
+
+        function download() {
+            const link = document.createElement('a');
+            link.download = 'youtube-thumbnail-1080x1080.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('✓ YouTube Thumbnail downloaded!');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        ['emoji-input', 'title-input', 'subtitle-input'].forEach(id => {
+            document.getElementById(id).addEventListener('input', render);
+        });
+        document.getElementById('pattern-select').addEventListener('change', render);
+        document.getElementById('download-btn').addEventListener('click', download);
+
+        initUI();
+        render();
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "YouTube Thumbnail Maker",
+        "description": "Free YouTube Thumbnail generator. Create 1080x1080 video thumbnails in seconds. No signup, no watermark.",
+        "url": "https://og-card-maker.vercel.app/youtube-thumbnail-maker.html",
+        "applicationCategory": "DesignApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "OG Card Maker",
+            "item": "https://og-card-maker.vercel.app/"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "YouTube Thumbnail Maker",
+            "item": "https://og-card-maker.vercel.app/youtube-thumbnail-maker.html"
+        }]
+    }
+    </script>
+</body>
+</html>
