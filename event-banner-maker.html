@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Banner Maker - Free Webinar & Event Image Generator | OG Card Maker</title>
+    <meta name="description" content="Free Event Banner maker. Create webinar thumbnails, conference headers, and event promotional images. No signup, no watermark. Perfect for Eventbrite, Meetup, Zoom.">
+    <meta property="og:title" content="Event Banner Maker - Free Webinar & Event Image Generator">
+    <meta property="og:url" content="https://og-card-maker.vercel.app/event-banner-maker.html">
+    <meta name="keywords" content="event banner maker, webinar thumbnail, conference image, event graphic, meetup banner, eventbrite image, free event banner">
+    <link rel="canonical" href="https://og-card-maker.vercel.app/event-banner-maker.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎉</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #7c3aed; --primary-dark: #5b21b6; --bg: #0f172a; --surface: #1e293b; --surface-2: #334155; --text: #f8fafc; --text-muted: #94a3b8; --border: #475569; --success: #10b981; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumb { margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
+        .controls { background: var(--surface); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); }
+        .control-group { margin-bottom: 1.25rem; }
+        .control-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        input[type="text"], textarea, select { width: 100%; padding: 0.7rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; }
+        input:focus { outline: none; border-color: var(--primary); }
+        .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .theme-btn { aspect-ratio: 1.5/1; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active { border-color: var(--primary); }
+        .btn-primary { width: 100%; padding: 0.8rem 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .preview-wrapper { background: var(--surface); border-radius: 16px; padding: 1.25rem; border: 1px solid var(--border); }
+        .preview-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; display: flex; justify-content: space-between; }
+        #preview-canvas { width: 100%; border-radius: 8px; }
+        .size-info { text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 0.6rem; }
+        .info-section { background: var(--surface); border-radius: 16px; padding: 2rem; margin-top: 2.5rem; border: 1px solid var(--border); }
+        .info-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .info-section h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        .info-section p, .info-section li { color: var(--text-muted); font-size: 0.95rem; }
+        .info-section ul { padding-left: 1.5rem; }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--primary); text-decoration: none; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; transition: transform 0.3s; z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb"><a href="/">🏠 OG Card Maker</a> / Event Banner Maker</nav>
+        <header class="hero">
+            <h1>🎉 Event Banner Maker</h1>
+            <p>Create stunning event banners for webinars, conferences, meetups, and workshops. Perfect for Eventbrite, Meetup, Zoom, and social media promotion.</p>
+        </header>
+        <div class="app-layout">
+            <div class="controls">
+                <div class="control-group"><label>Event Name</label><input type="text" id="title-input" value="Your Event Name" placeholder="Event title..." maxlength="50"></div>
+                <div class="control-group"><label>Date & Time</label><input type="text" id="subtitle-input" placeholder="June 15, 2026 • 2:00 PM EST" value="June 15, 2026 • 2:00 PM EST"></div>
+                <div class="control-group"><label>Emoji Icon</label><input type="text" id="emoji-input" placeholder="🎉" maxlength="4"></div>
+                <div class="control-group"><label>Theme</label><div class="theme-grid" id="theme-grid"></div></div>
+                <div class="btn-group"><button class="btn-primary" id="download-btn">Download PNG</button></div>
+            </div>
+            <div class="preview-wrapper">
+                <div class="preview-label"><span>Live Preview</span><span>1200 × 630</span></div>
+                <canvas id="preview-canvas" width="1200" height="630"></canvas>
+                <p class="size-info">OG image size • Works on all platforms</p>
+            </div>
+        </div>
+        <section class="info-section">
+            <h2>Create Event Banners That Drive Registrations</h2>
+            <p>A compelling event banner is crucial for driving registrations. Your banner needs to communicate value and create urgency in seconds.</p>
+            <h3>Event Banner Sizes by Platform</h3>
+            <ul>
+                <li><strong>Eventbrite:</strong> 2160×1080 pixels</li>
+                <li><strong>Meetup:</strong> 1920×1080 pixels</li>
+                <li><strong>Facebook Events:</strong> 1200×630 pixels</li>
+                <li><strong>LinkedIn Events:</strong> 1200×627 pixels</li>
+                <li><strong>Zoom webinar:</strong> 1280×720 pixels</li>
+            </ul>
+            <h3>Tips for High-Converting Event Banners</h3>
+            <ul>
+                <li>Include date, time, and timezone prominently</li>
+                <li>Add a clear value proposition (what will attendees learn?)</li>
+                <li>Use urgency language if applicable ("Limited spots")</li>
+                <li>Show speaker photos for credibility</li>
+                <li>Include your brand logo</li>
+            </ul>
+            <h3>Why Use This Free Event Banner Maker?</h3>
+            <ul>
+                <li>✅ Perfect dimensions for all major platforms</li>
+                <li>✅ No signup required</li>
+                <li>✅ No watermarks</li>
+                <li>✅ Professional gradient themes</li>
+                <li>✅ 100% free</li>
+            </ul>
+        </section>
+        <footer><p>Made with ❤️ • <a href="/">OG Card Maker</a> • Free forever</p></footer>
+    </div>
+    <div class="toast" id="toast">✓ Event Banner downloaded!</div>
+    <script>
+        const themes = [
+            { name: 'Purple Gradient', colors: ['#7c3aed', '#5b21b6'] },
+            { name: 'Pink Vibes', colors: ['#ec4899', '#f472b6'] },
+            { name: 'Ocean', colors: ['#0093E9', '#80D0C7'] },
+            { name: 'Sunset', colors: ['#FA8BFF', '#2BD2FF', '#2BFF88'] },
+            { name: 'Fire', colors: ['#f093fb', '#f5576c'] },
+            { name: 'Forest', colors: ['#11998e', '#38ef7d'] },
+            { name: 'Amber', colors: ['#f59e0b', '#d97706'] },
+            { name: 'Midnight', colors: ['#0f0c29', '#302b63', '#24243e'] },
+            { name: 'Indigo', colors: ['#667eea', '#764ba2'] },
+            { name: 'Rose', colors: ['#e11d48', '#fb7185'] },
+        ];
+        let currentTheme = 0;
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        function initUI() {
+            const grid = document.getElementById('theme-grid');
+            themes.forEach((theme, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = theme.colors.length > 2 ? `linear-gradient(135deg, ${theme.colors.join(', ')})` : `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
+                btn.onclick = () => { document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTheme = i; render(); };
+                grid.appendChild(btn);
+            });
+        }
+        function render() {
+            const W = canvas.width, H = canvas.height;
+            const theme = themes[currentTheme];
+            const gradient = ctx.createLinearGradient(0, 0, W, H);
+            theme.colors.forEach((color, i) => gradient.addColorStop(i / (theme.colors.length - 1), color));
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+            const title = document.getElementById('title-input').value || 'Event';
+            const datetime = document.getElementById('subtitle-input').value;
+            const emoji = document.getElementById('emoji-input').value.trim();
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 8;
+            let titleY = datetime ? H*0.45 : H*0.5;
+            if (emoji) { ctx.font = '80px sans-serif'; ctx.fillStyle = 'white'; ctx.fillText(emoji, W/2, H*0.25); titleY = H*0.5; }
+            const titleSize = title.length > 30 ? 48 : title.length > 20 ? 56 : 64;
+            ctx.font = `700 ${titleSize}px -apple-system, sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(title, W/2, titleY);
+            if (datetime) { ctx.font = '600 28px -apple-system, sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.9)'; ctx.shadowBlur = 4; ctx.fillText(datetime, W/2, H*0.72); }
+        }
+        function download() { const link = document.createElement('a'); link.download = 'event-banner-1200x630.png'; link.href = canvas.toDataURL('image/png'); link.click(); showToast('✓ Event Banner downloaded!'); }
+        function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+        ['title-input', 'subtitle-input', 'emoji-input'].forEach(id => document.getElementById(id).addEventListener('input', render));
+        document.getElementById('download-btn').addEventListener('click', download);
+        initUI(); render();
+    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Event Banner Maker","url":"https://og-card-maker.vercel.app/event-banner-maker.html","offers":{"@type":"Offer","price":"0"}}</script>
+</body>
+</html>

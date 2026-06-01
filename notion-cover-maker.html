@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Notion Cover Maker - Free Page Header Generator | OG Card Maker</title>
+    <meta name="description" content="Free Notion cover image maker. Create beautiful page headers for Notion. 1500x600 pixels. No signup, no watermark. Perfect for Notion pages, docs, and wikis.">
+    <meta property="og:title" content="Notion Cover Maker - Free Page Header Generator">
+    <meta property="og:url" content="https://og-card-maker.vercel.app/notion-cover-maker.html">
+    <meta name="keywords" content="notion cover image, notion header, notion page cover, notion banner, free notion cover, notion template header">
+    <link rel="canonical" href="https://og-card-maker.vercel.app/notion-cover-maker.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📓</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #000; --bg: #0f172a; --surface: #1e293b; --surface-2: #334155; --text: #f8fafc; --text-muted: #94a3b8; --border: #475569; --accent: #22d3ee; --success: #10b981; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumb { margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(135deg, #fff, #9ca3af); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
+        .controls { background: var(--surface); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); }
+        .control-group { margin-bottom: 1.25rem; }
+        .control-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        input[type="text"], textarea, select { width: 100%; padding: 0.7rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; }
+        input:focus { outline: none; border-color: #fff; }
+        .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .theme-btn { aspect-ratio: 2.5/1; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+        .theme-btn:hover { transform: scale(1.05); }
+        .theme-btn.active { border-color: #fff; }
+        .btn-primary { width: 100%; padding: 0.8rem 1rem; background: #fff; color: #000; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .preview-wrapper { background: var(--surface); border-radius: 16px; padding: 1.25rem; border: 1px solid var(--border); }
+        .preview-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; display: flex; justify-content: space-between; }
+        #preview-canvas { width: 100%; border-radius: 8px; }
+        .size-info { text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 0.6rem; }
+        .info-section { background: var(--surface); border-radius: 16px; padding: 2rem; margin-top: 2.5rem; border: 1px solid var(--border); }
+        .info-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: #fff; }
+        .info-section h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        .info-section p, .info-section li { color: var(--text-muted); font-size: 0.95rem; }
+        .info-section ul { padding-left: 1.5rem; }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+        footer a { color: #fff; text-decoration: none; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; transition: transform 0.3s; z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb"><a href="/">🏠 OG Card Maker</a> / Notion Cover Maker</nav>
+        <header class="hero">
+            <h1>📓 Notion Cover Maker</h1>
+            <p>Create beautiful cover images for your Notion pages. 1500×600 pixels, perfect for page headers, docs, wikis, and databases.</p>
+        </header>
+        <div class="app-layout">
+            <div class="controls">
+                <div class="control-group"><label>Page Title</label><input type="text" id="title-input" value="Your Page Title" placeholder="Notion page title..." maxlength="60"></div>
+                <div class="control-group"><label>Subtitle</label><textarea id="subtitle-input" placeholder="Optional subtitle..." rows="2">Documentation & Notes</textarea></div>
+                <div class="control-group"><label>Emoji Icon</label><input type="text" id="emoji-input" placeholder="📓" maxlength="4"></div>
+                <div class="control-group"><label>Cover Theme</label><div class="theme-grid" id="theme-grid"></div></div>
+                <div class="btn-group"><button class="btn-primary" id="download-btn">Download PNG</button></div>
+            </div>
+            <div class="preview-wrapper">
+                <div class="preview-label"><span>Live Preview</span><span>1500 × 600</span></div>
+                <canvas id="preview-canvas" width="1500" height="600"></canvas>
+                <p class="size-info">Notion's recommended cover size</p>
+            </div>
+        </div>
+        <section class="info-section">
+            <h2>Create Notion Covers That Look Professional</h2>
+            <p>Your Notion cover image sets the tone for your entire page. A great cover makes your docs, wikis, and databases look polished and professional.</p>
+            <h3>Notion Cover Size</h3>
+            <ul>
+                <li><strong>Recommended:</strong> 1500×600 pixels</li>
+                <li><strong>Aspect ratio:</strong> 2.5:1</li>
+                <li><strong>Format:</strong> PNG or JPG</li>
+            </ul>
+            <h3>Best Practices for Notion Covers</h3>
+            <ul>
+                <li>Keep it minimal — Notion is all about clean design</li>
+                <li>Use consistent colors across your workspace</li>
+                <li>Add your logo for brand recognition</li>
+                <li>Consider dark mode compatibility</li>
+            </ul>
+            <h3>Why Use This Free Notion Cover Maker?</h3>
+            <ul>
+                <li>✅ Perfect dimensions for Notion</li>
+                <li>✅ No signup required</li>
+                <li>✅ No watermarks</li>
+                <li>✅ Minimalist themes that match Notion's aesthetic</li>
+                <li>✅ 100% free</li>
+            </ul>
+        </section>
+        <footer><p>Made with ❤️ • <a href="/">OG Card Maker</a> • Free forever</p></footer>
+    </div>
+    <div class="toast" id="toast">✓ Cover downloaded!</div>
+    <script>
+        const themes = [
+            { name: 'Minimal White', colors: ['#ffffff', '#f8fafc'] },
+            { name: 'Notion Gray', colors: ['#374151', '#6b7280'] },
+            { name: 'Ocean', colors: ['#0093E9', '#80D0C7'] },
+            { name: 'Sunset', colors: ['#FA8BFF', '#2BD2FF', '#2BFF88'] },
+            { name: 'Forest', colors: ['#11998e', '#38ef7d'] },
+            { name: 'Midnight', colors: ['#0f0c29', '#302b63', '#24243e'] },
+            { name: 'Amber', colors: ['#f59e0b', '#d97706'] },
+            { name: 'Rose', colors: ['#e11d48', '#fb7185'] },
+            { name: 'Indigo', colors: ['#667eea', '#764ba2'] },
+            { name: 'Slate', colors: ['#1e293b', '#475569'] },
+        ];
+        let currentTheme = 0;
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        function initUI() {
+            const grid = document.getElementById('theme-grid');
+            themes.forEach((theme, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = theme.colors.length > 2 ? `linear-gradient(135deg, ${theme.colors.join(', ')})` : `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
+                btn.onclick = () => { document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTheme = i; render(); };
+                grid.appendChild(btn);
+            });
+        }
+        function render() {
+            const W = canvas.width, H = canvas.height;
+            const theme = themes[currentTheme];
+            const gradient = ctx.createLinearGradient(0, 0, W, H);
+            theme.colors.forEach((color, i) => gradient.addColorStop(i / (theme.colors.length - 1), color));
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+            const title = document.getElementById('title-input').value || 'Your Page';
+            const subtitle = document.getElementById('subtitle-input').value;
+            const emoji = document.getElementById('emoji-input').value.trim();
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            const isLight = theme.colors[0] === '#ffffff';
+            const textColor = isLight ? '#1e293b' : '#ffffff';
+            let titleY = subtitle ? H*0.45 : H*0.5;
+            if (emoji) { ctx.font = '80px sans-serif'; ctx.fillStyle = textColor; ctx.fillText(emoji, W/2, H*0.25); titleY = H*0.5; }
+            const titleSize = title.length > 30 ? 48 : title.length > 20 ? 56 : 64;
+            ctx.font = `700 ${titleSize}px -apple-system, sans-serif`;
+            ctx.fillStyle = textColor;
+            ctx.fillText(title, W/2, titleY);
+            if (subtitle) { ctx.font = '400 24px -apple-system, sans-serif'; ctx.fillStyle = isLight ? 'rgba(30,41,59,0.7)' : 'rgba(255,255,255,0.7)'; ctx.fillText(subtitle, W/2, H*0.7); }
+        }
+        function download() { const link = document.createElement('a'); link.download = 'notion-cover-1500x600.png'; link.href = canvas.toDataURL('image/png'); link.click(); showToast('✓ Notion Cover downloaded!'); }
+        function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+        ['title-input', 'subtitle-input', 'emoji-input'].forEach(id => document.getElementById(id).addEventListener('input', render));
+        document.getElementById('download-btn').addEventListener('click', download);
+        initUI(); render();
+    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Notion Cover Maker","url":"https://og-card-maker.vercel.app/notion-cover-maker.html","offers":{"@type":"Offer","price":"0"}}</script>
+</body>
+</html>
