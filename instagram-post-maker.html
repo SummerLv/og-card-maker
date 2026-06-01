@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Post Maker - Free Square Image Generator | OG Card Maker</title>
+    <meta name="description" content="Free Instagram Post maker. Create stunning 1080x1080 square images for Instagram posts. No signup, no watermark. Perfect for feed posts, stories templates, and carousel slides.">
+    <meta property="og:title" content="Instagram Post Maker - Free Square Image Generator">
+    <meta property="og:description" content="Create stunning Instagram posts in seconds. Free, no signup.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://og-card-maker.vercel.app/instagram-post-maker.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="keywords" content="instagram post maker, instagram template, instagram square image, ig post creator, instagram feed image, free instagram post tool, instagram carousel maker">
+    <link rel="canonical" href="https://og-card-maker.vercel.app/instagram-post-maker.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📸</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #e4405f; --primary-dark: #c13584; --bg: #0f172a; --surface: #1e293b; --surface-2: #334155; --text: #f8fafc; --text-muted: #94a3b8; --border: #475569; --accent: #22d3ee; --success: #10b981; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumb { margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .breadcrumb a:hover { color: var(--primary); }
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #fcaf45, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
+        .controls { background: var(--surface); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); }
+        .control-group { margin-bottom: 1.25rem; }
+        .control-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+        input[type="text"], textarea, select { width: 100%; padding: 0.7rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; font-family: inherit; }
+        input:focus, textarea:focus, select:focus { outline: none; border-color: var(--primary); }
+        .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .theme-btn { aspect-ratio: 1; border-radius: 6px; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
+        .theme-btn:hover { transform: scale(1.08); }
+        .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(228,64,95,0.3); }
+        .btn-row { display: flex; gap: 0.5rem; }
+        .btn-primary { flex: 1; padding: 0.8rem 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.4rem; transition: all 0.2s; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(228,64,95,0.4); }
+        .preview-area { position: sticky; top: 1.5rem; }
+        .preview-wrapper { background: var(--surface); border-radius: 16px; padding: 1.25rem; border: 1px solid var(--border); }
+        .preview-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; display: flex; justify-content: space-between; }
+        #preview-canvas { width: 100%; max-width: 400px; margin: 0 auto; display: block; border-radius: 8px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
+        .size-info { text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 0.6rem; }
+        .info-section { background: var(--surface); border-radius: 16px; padding: 2rem; margin-top: 2.5rem; border: 1px solid var(--border); }
+        .info-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .info-section h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        .info-section p, .info-section li { color: var(--text-muted); font-size: 0.95rem; }
+        .info-section ul { padding-left: 1.5rem; }
+        .info-section li { margin-bottom: 0.5rem; }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--primary); text-decoration: none; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; font-weight: 500; transition: transform 0.3s ease; z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb"><a href="/">🏠 OG Card Maker</a> / Instagram Post Maker</nav>
+        <header class="hero">
+            <h1>📸 Instagram Post Maker</h1>
+            <p>Create eye-catching square images for Instagram feed posts. Perfect for carousel slides, quote posts, announcements, and product showcases. 1080×1080 pixels, optimized for Instagram.</p>
+        </header>
+        <div class="app-layout">
+            <div class="controls">
+                <div class="control-group"><label>Emoji Icon</label><input type="text" id="emoji-input" placeholder="📸" maxlength="4"></div>
+                <div class="control-group"><label>Headline</label><input type="text" id="title-input" value="Your Headline Here" placeholder="Enter headline..." maxlength="50"></div>
+                <div class="control-group"><label>Subtitle / Caption</label><textarea id="subtitle-input" placeholder="Add a caption or quote..." rows="2">Make it stand out</textarea></div>
+                <div class="control-group"><label>Handle / Brand</label><input type="text" id="author-input" placeholder="@yourhandle"></div>
+                <div class="control-group"><label>Gradient Theme</label><div class="theme-grid" id="theme-grid"></div></div>
+                <div class="control-group"><label>Pattern Overlay</label><select id="pattern-select"><option value="none">None</option><option value="dots">Dots</option><option value="grid">Grid</option><option value="waves">Waves</option><option value="noise">Noise</option></select></div>
+                <div class="btn-row"><button class="btn-primary" id="download-btn"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg> Download PNG</button></div>
+            </div>
+            <div class="preview-area">
+                <div class="preview-wrapper">
+                    <div class="preview-label"><span>Live Preview</span><span>1080 × 1080</span></div>
+                    <canvas id="preview-canvas" width="1080" height="1080"></canvas>
+                    <p class="size-info">Square format • Perfect for Instagram Feed & Carousel</p>
+                </div>
+            </div>
+        </div>
+        <section class="info-section">
+            <h2>Create Instagram Posts That Stop the Scroll</h2>
+            <p>Your Instagram feed is your visual business card. Great posts stand out, communicate value, and drive engagement. Whether you're creating quote graphics, announcements, or carousel slides, a stunning image makes all the difference.</p>
+            <h3>Instagram Post Size Requirements</h3>
+            <ul>
+                <li><strong>Square posts:</strong> 1080×1080 pixels (1:1 aspect ratio)</li>
+                <li><strong>Portrait posts:</strong> 1080×1350 pixels (4:5 aspect ratio)</li>
+                <li><strong>Landscape posts:</strong> 1080×566 pixels (1.91:1 aspect ratio)</li>
+                <li><strong>Maximum file size:</strong> 30MB</li>
+                <li><strong>Format:</strong> JPG or PNG</li>
+            </ul>
+            <h3>Tips for High-Engagement Instagram Posts</h3>
+            <ul>
+                <li>Use bold, high-contrast colors that pop in the feed</li>
+                <li>Keep text minimal — 5 words or less for maximum impact</li>
+                <li>Use consistent branding across all posts</li>
+                <li>Carousel posts get 3x more engagement than single images</li>
+                <li>Post at peak hours: 11am-1pm and 7pm-9pm local time</li>
+            </ul>
+            <h3>Why Use This Free Instagram Post Maker?</h3>
+            <ul>
+                <li>✅ Perfect 1080×1080 dimensions for Instagram</li>
+                <li>✅ No signup — create posts instantly</li>
+                <li>✅ No watermarks on your final image</li>
+                <li>✅ Trendy gradient themes designed for engagement</li>
+                <li>✅ 100% free — unlimited downloads</li>
+            </ul>
+        </section>
+        <footer>
+            <p>Made with ❤️ • <a href="/">OG Card Maker</a> • Free forever</p>
+            <p style="margin-top:0.5rem;">
+                <a href="/twitter-card-generator.html" style="color:var(--text-muted);margin:0 0.5rem;">Twitter</a> •
+                <a href="/youtube-thumbnail-maker.html" style="color:var(--text-muted);margin:0 0.5rem;">YouTube</a> •
+                <a href="/facebook-og-image-maker.html" style="color:var(--text-muted);margin:0 0.5rem;">Facebook</a> •
+                <a href="/linkedin-banner-maker.html" style="color:var(--text-muted);margin:0 0.5rem;">LinkedIn</a> •
+                <a href="/discord-embed-maker.html" style="color:var(--text-muted);margin:0 0.5rem;">Discord</a>
+            </p>
+        </footer>
+    </div>
+    <div class="toast" id="toast">✓ Post downloaded!</div>
+    <script>
+        const themes = [
+            { name: 'Instagram Gradient', colors: ['#e4405f', '#fcaf45'] },
+            { name: 'Sunset', colors: ['#FA8BFF', '#2BD2FF', '#2BFF88'] },
+            { name: 'Ocean', colors: ['#0093E9', '#80D0C7'] },
+            { name: 'Fire', colors: ['#f093fb', '#f5576c'] },
+            { name: 'Forest', colors: ['#11998e', '#38ef7d'] },
+            { name: 'Midnight', colors: ['#0f0c29', '#302b63', '#24243e'] },
+            { name: 'Amber', colors: ['#f59e0b', '#d97706'] },
+            { name: 'Emerald', colors: ['#059669', '#34d399'] },
+            { name: 'Violet', colors: ['#7c3aed', '#a78bfa'] },
+            { name: 'Coral', colors: ['#ff9a9e', '#fecfef'] },
+        ];
+        let currentTheme = 0;
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function initUI() {
+            const grid = document.getElementById('theme-grid');
+            themes.forEach((theme, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = theme.colors.length > 2 ? `linear-gradient(135deg, ${theme.colors.join(', ')})` : `linear-gradient(135deg, ${theme.colors[0]}, ${theme.colors[1]})`;
+                btn.title = theme.name;
+                btn.onclick = () => { document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTheme = i; render(); };
+                grid.appendChild(btn);
+            });
+        }
+
+        function render() {
+            const W = canvas.width, H = canvas.height;
+            const theme = themes[currentTheme];
+            const gradient = ctx.createLinearGradient(0, 0, W, H);
+            theme.colors.forEach((color, i) => gradient.addColorStop(i / (theme.colors.length - 1), color));
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+            drawPattern(ctx, W, H);
+            const emoji = document.getElementById('emoji-input').value.trim();
+            const title = document.getElementById('title-input').value || 'Your Headline';
+            const subtitle = document.getElementById('subtitle-input').value;
+            const author = document.getElementById('author-input').value;
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetY = 4;
+            if (emoji) { ctx.font = '120px sans-serif'; ctx.fillStyle = 'white'; ctx.fillText(emoji, W/2, H * 0.25); }
+            const titleSize = title.length > 30 ? 52 : title.length > 20 ? 64 : 72;
+            ctx.font = `800 ${titleSize}px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            wrapText(ctx, title, W/2, subtitle ? H * 0.5 : H * 0.55, W - 120, titleSize * 1.1);
+            if (subtitle) { ctx.font = '400 32px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.shadowBlur = 5; wrapText(ctx, subtitle, W/2, H * 0.68, W - 120, 40); }
+            if (author) { ctx.font = '600 28px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif'; ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.shadowBlur = 3; ctx.fillText(author, W/2, H * 0.88); }
+        }
+
+        function drawPattern(ctx, W, H) {
+            const pattern = document.getElementById('pattern-select').value;
+            if (pattern === 'none') return;
+            ctx.globalAlpha = 0.12;
+            ctx.strokeStyle = '#fff';
+            ctx.fillStyle = '#fff';
+            ctx.lineWidth = 1.5;
+            switch (pattern) {
+                case 'dots': for (let x = 0; x < W; x += 32) for (let y = 0; y < H; y += 32) { ctx.beginPath(); ctx.arc(x, y, 2, 0, Math.PI * 2); ctx.fill(); } break;
+                case 'grid': for (let x = 0; x < W; x += 48) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); } for (let y = 0; y < H; y += 48) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); } break;
+                case 'waves': for (let y = 0; y < H; y += 40) { ctx.beginPath(); for (let x = 0; x < W; x += 5) ctx.lineTo(x, y + Math.sin(x/35 + y/25) * 15); ctx.stroke(); } break;
+                case 'noise': for (let i = 0; i < 3000; i++) ctx.fillRect(Math.random() * W, Math.random() * H, 1.5, 1.5); break;
+            }
+            ctx.globalAlpha = 1;
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '', lines = [];
+            for (let word of words) { const test = line + word + ' '; if (ctx.measureText(test).width > maxWidth && line !== '') { lines.push(line.trim()); line = word + ' '; } else { line = test; } }
+            lines.push(line.trim());
+            if (lines.length > 3) lines = lines.slice(0, 3);
+            const startY = y - ((lines.length - 1) * lineHeight) / 2;
+            lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineHeight));
+        }
+
+        function download() { const link = document.createElement('a'); link.download = 'instagram-post-1080x1080.png'; link.href = canvas.toDataURL('image/png'); link.click(); showToast('✓ Instagram Post downloaded!'); }
+        function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+
+        ['emoji-input', 'title-input', 'subtitle-input', 'author-input'].forEach(id => { document.getElementById(id).addEventListener('input', render); });
+        document.getElementById('pattern-select').addEventListener('change', render);
+        document.getElementById('download-btn').addEventListener('click', download);
+        initUI();
+        render();
+    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Instagram Post Maker","description":"Free Instagram post generator.","url":"https://og-card-maker.vercel.app/instagram-post-maker.html","applicationCategory":"DesignApplication","operatingSystem":"Web Browser","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}</script>
+</body>
+</html>
