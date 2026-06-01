@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WhatsApp Status Maker - Free Status Image Creator | OG Card Maker</title>
+    <meta name="description" content="Free WhatsApp Status maker. Create beautiful status images for WhatsApp. 1080x1920 pixels. No signup, no watermark. Perfect for personal and business status updates.">
+    <meta property="og:url" content="https://og-card-maker.vercel.app/whatsapp-status-maker.html">
+    <meta name="keywords" content="whatsapp status image, whatsapp status maker, whatsapp status creator, whatsapp status design, free whatsapp status, status image maker">
+    <link rel="canonical" href="https://og-card-maker.vercel.app/whatsapp-status-maker.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #25d366; --primary-dark: #128c7e; --bg: #0f172a; --surface: #1e293b; --surface-2: #334155; --text: #f8fafc; --text-muted: #94a3b8; --border: #475569; --success: #10b981; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem 1.5rem; }
+        .breadcrumb { margin-bottom: 1.5rem; }
+        .breadcrumb a { color: var(--text-muted); text-decoration: none; }
+        .hero { text-align: center; margin-bottom: 2.5rem; }
+        .hero h1 { font-size: 2.8rem; margin-bottom: 1rem; background: linear-gradient(135deg, var(--primary), #075e54); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-muted); font-size: 1.2rem; max-width: 700px; margin: 0 auto; }
+        .app-layout { display: grid; grid-template-columns: 380px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 900px) { .app-layout { grid-template-columns: 1fr; } }
+        .controls { background: var(--surface); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border); }
+        .control-group { margin-bottom: 1.25rem; }
+        .control-group label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem; }
+        input[type="text"], textarea { width: 100%; padding: 0.7rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; }
+        input:focus { outline: none; border-color: var(--primary); }
+        .theme-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+        .theme-btn { aspect-ratio: 9/16; border-radius: 6px; border: 2px solid transparent; cursor: pointer; }
+        .theme-btn:hover { transform: scale(1.08); }
+        .theme-btn.active { border-color: var(--primary); }
+        .btn-primary { width: 100%; padding: 0.8rem 1rem; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; }
+        .preview-wrapper { background: var(--surface); border-radius: 16px; padding: 1.25rem; border: 1px solid var(--border); }
+        .preview-label { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.6rem; display: flex; justify-content: space-between; }
+        #preview-canvas { width: 100%; max-width: 240px; margin: 0 auto; display: block; border-radius: 8px; }
+        .size-info { text-align: center; color: var(--text-muted); font-size: 0.75rem; margin-top: 0.6rem; }
+        .info-section { background: var(--surface); border-radius: 16px; padding: 2rem; margin-top: 2.5rem; border: 1px solid var(--border); }
+        .info-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .info-section h3 { font-size: 1.1rem; margin: 1.5rem 0 0.5rem; }
+        .info-section p, .info-section li { color: var(--text-muted); font-size: 0.95rem; }
+        .info-section ul { padding-left: 1.5rem; }
+        footer { text-align: center; margin-top: 2rem; padding: 1.5rem 0; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+        footer a { color: var(--primary); text-decoration: none; }
+        .toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--success); color: white; padding: 0.75rem 1.5rem; border-radius: 10px; transition: transform 0.3s; z-index: 1000; }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <nav class="breadcrumb"><a href="/">🏠 OG Card Maker</a> / WhatsApp Status Maker</nav>
+        <header class="hero">
+            <h1>💬 WhatsApp Status Maker</h1>
+            <p>Create stunning status images for WhatsApp. 1080×1920 pixels, optimized for mobile screens. Perfect for personal updates, quotes, and business promotions.</p>
+        </header>
+        <div class="app-layout">
+            <div class="controls">
+                <div class="control-group"><label>Status Text</label><textarea id="title-input" placeholder="Your status message..." rows="3">Your status message here</textarea></div>
+                <div class="control-group"><label>Emoji</label><input type="text" id="emoji-input" placeholder="💬" maxlength="4"></div>
+                <div class="control-group"><label>Theme</label><div class="theme-grid" id="theme-grid"></div></div>
+                <button class="btn-primary" id="download-btn">Download PNG</button>
+            </div>
+            <div class="preview-wrapper">
+                <div class="preview-label"><span>Live Preview</span><span>1080 × 1920</span></div>
+                <canvas id="preview-canvas" width="1080" height="1920"></canvas>
+                <p class="size-info">Vertical 9:16 • Perfect for WhatsApp Status</p>
+            </div>
+        </div>
+        <section class="info-section">
+            <h2>Create WhatsApp Status That Gets Views</h2>
+            <p>WhatsApp Status is viewed by all your contacts. A great status image can express your mood, share quotes, promote your business, or simply brighten someone's day.</p>
+            <h3>WhatsApp Status Image Size</h3>
+            <ul>
+                <li><strong>Recommended:</strong> 1080×1920 pixels (9:16)</li>
+                <li><strong>Format:</strong> PNG or JPG</li>
+                <li><strong>Duration:</strong> 24 hours</li>
+            </ul>
+            <h3>Best Practices for WhatsApp Status</h3>
+            <ul>
+                <li>Keep text minimal and readable</li>
+                <li>Use high contrast colors</li>
+                <li>Emojis increase engagement</li>
+                <li>Post during peak hours (morning/evening)</li>
+            </ul>
+            <h3>Why Use This Free WhatsApp Status Maker?</h3>
+            <ul>
+                <li>✅ Perfect vertical dimensions</li>
+                <li>✅ No signup required</li>
+                <li>✅ No watermarks</li>
+                <li>✅ Quick and easy</li>
+                <li>✅ 100% free</li>
+            </ul>
+        </section>
+        <footer><p>Made with ❤️ • <a href="/">OG Card Maker</a> • Free forever</p></footer>
+    </div>
+    <div class="toast" id="toast">✓ Status Image downloaded!</div>
+    <script>
+        const themes = [
+            { name: 'WhatsApp Green', colors: ['#25d366', '#128c7e'] },
+            { name: 'Ocean', colors: ['#0093E9', '#80D0C7'] },
+            { name: 'Sunset', colors: ['#FA8BFF', '#2BD2FF', '#2BFF88'] },
+            { name: 'Fire', colors: ['#f093fb', '#f5576c'] },
+            { name: 'Forest', colors: ['#11998e', '#38ef7d'] },
+            { name: 'Midnight', colors: ['#0f0c29', '#302b63', '#24243e'] },
+            { name: 'Amber', colors: ['#f59e0b', '#d97706'] },
+            { name: 'Violet', colors: ['#7c3aed', '#a78bfa'] },
+            { name: 'Rose', colors: ['#e11d48', '#fb7185'] },
+            { name: 'Indigo', colors: ['#667eea', '#764ba2'] },
+        ];
+        let currentTheme = 0;
+        const canvas = document.getElementById('preview-canvas');
+        const ctx = canvas.getContext('2d');
+        function initUI() {
+            const grid = document.getElementById('theme-grid');
+            themes.forEach((theme, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'theme-btn' + (i === 0 ? ' active' : '');
+                btn.style.background = theme.colors.length > 2 ? `linear-gradient(180deg, ${theme.colors.join(', ')})` : `linear-gradient(180deg, ${theme.colors[0]}, ${theme.colors[1]})`;
+                btn.onclick = () => { document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); currentTheme = i; render(); };
+                grid.appendChild(btn);
+            });
+        }
+        function render() {
+            const W = canvas.width, H = canvas.height;
+            const theme = themes[currentTheme];
+            const gradient = ctx.createLinearGradient(0, 0, 0, H);
+            theme.colors.forEach((color, i) => gradient.addColorStop(i / (theme.colors.length - 1), color));
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, W, H);
+            const text = document.getElementById('title-input').value || 'Status';
+            const emoji = document.getElementById('emoji-input').value.trim();
+            ctx.textBaseline = 'middle';
+            ctx.textAlign = 'center';
+            ctx.shadowColor = 'rgba(0,0,0,0.3)';
+            ctx.shadowBlur = 10;
+            if (emoji) { ctx.font = '180px sans-serif'; ctx.fillStyle = 'white'; ctx.fillText(emoji, W/2, H*0.25); }
+            const lines = text.split('\n');
+            const fontSize = lines[0].length > 30 ? 60 : lines[0].length > 15 ? 80 : 100;
+            ctx.font = `700 ${fontSize}px -apple-system, sans-serif`;
+            ctx.fillStyle = '#ffffff';
+            const startY = emoji ? H*0.45 : H*0.4;
+            lines.forEach((line, i) => {
+                const sz = line.length > 30 ? 50 : line.length > 15 ? 70 : 90;
+                ctx.font = `700 ${sz}px -apple-system, sans-serif`;
+                wrapText(ctx, line, W/2, startY + i * 120, W - 100, 110);
+            });
+        }
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '', lines = [];
+            for (let word of words) { const test = line + word + ' '; if (ctx.measureText(test).width > maxWidth && line !== '') { lines.push(line.trim()); line = word + ' '; } else { line = test; } }
+            lines.push(line.trim());
+            if (lines.length > 5) lines = lines.slice(0, 5);
+            const startY = y - ((lines.length - 1) * lineHeight) / 2;
+            lines.forEach((l, i) => ctx.fillText(l, x, startY + i * lineHeight));
+        }
+        function download() { const link = document.createElement('a'); link.download = 'whatsapp-status-1080x1920.png'; link.href = canvas.toDataURL('image/png'); link.click(); showToast('✓ Status Image downloaded!'); }
+        function showToast(msg) { const toast = document.getElementById('toast'); toast.textContent = msg; toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 2500); }
+        ['title-input', 'emoji-input'].forEach(id => document.getElementById(id).addEventListener('input', render));
+        document.getElementById('download-btn').addEventListener('click', download);
+        initUI(); render();
+    </script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"WhatsApp Status Maker","url":"https://og-card-maker.vercel.app/whatsapp-status-maker.html","offers":{"@type":"Offer","price":"0"}}</script>
+</body>
+</html>
